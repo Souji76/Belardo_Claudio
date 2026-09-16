@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dott. Claudio Belardo — Psicologo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,440;0,9..144,560;1,9..144,440&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#A6C261;
+    --accent-dark:#87A445;
+    --accent-deep:#5E7A2E;
+    --accent-tint:#F2F6E9;
+    --accent-tint-2:#E7EFD8;
+    --bg:#FFFFFF;
+    --ink:#20241C;
+    --ink-soft:#586152;
+    --ink-faint:#8B9484;
+    --border:#E6EADB;
+    --shadow: 0 30px 60px -30px rgba(32,36,28,0.18);
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark){
+      --bg:#15170F;
+      --ink:#F1F3E9;
+      --ink-soft:#C4CBB6;
+      --ink-faint:#7D8571;
+      --border:#2B2F22;
+      --accent-tint:#1D2116;
+      --accent-tint-2:#242A1A;
+      --shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#15170F;
+    --ink:#F1F3E9;
+    --ink-soft:#C4CBB6;
+    --ink-faint:#7D8571;
+    --border:#2B2F22;
+    --accent-tint:#1D2116;
+    --accent-tint-2:#242A1A;
+    --shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:560;margin:0;letter-spacing:-0.01em;}
+  p{margin:0;}
+  button{font-family:var(--font-body);}
+
+  ::selection{background:var(--accent);color:#1B1F14;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  @media (max-width:720px){.wrap{padding:0 20px;}}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(14px) saturate(1.4);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s var(--ease), background .4s var(--ease), padding .4s var(--ease);
+  }
+  :root:not([data-theme="light"]) header.nav{ @media (prefers-color-scheme: dark){ background:rgba(21,23,15,0.7); } }
+  :root[data-theme="dark"] header.nav{ background:rgba(21,23,15,0.7); }
+  header.nav.scrolled{border-color:var(--border); box-shadow:0 10px 30px -20px rgba(0,0,0,0.15);}
+  .nav-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px; max-width:1180px;margin:0 auto;
+    transition:padding .4s var(--ease);
+  }
+  header.nav.scrolled .nav-inner{padding-top:12px;padding-bottom:12px;}
+  .brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
+  .brand img{height:30px;width:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,0.15));}
+  .brand-text{line-height:1.15;}
+  .brand-text .name{font-family:var(--font-display);font-size:16px;font-weight:560;}
+  .brand-text .role{font-size:11px;color:var(--ink-faint);letter-spacing:.03em;}
+
+  nav.links{display:flex;align-items:center;gap:2px;position:relative;}
+  nav.links a{
+    position:relative;padding:9px 16px;font-size:14.5px;color:var(--ink-soft);
+    border-radius:100px; transition:color .3s var(--ease);
+    white-space:nowrap;
+  }
+  nav.links a:hover{color:var(--ink);}
+  nav.links a.active{color:var(--ink);font-weight:500;}
+  .nav-indicator{
+    position:absolute; height:34px; background:var(--accent-tint);
+    border-radius:100px; top:0; left:0; z-index:-1;
+    transition:transform .45s var(--ease), width .45s var(--ease);
+  }
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--ink); color:var(--bg) !important; font-size:13.5px; font-weight:500;
+    padding:10px 18px; border-radius:100px; margin-left:8px;
+    transition:transform .35s var(--ease), background .3s;
+  }
+  .nav-cta:hover{transform:translateY(-2px); background:var(--accent-deep); color:#fff !important;}
+
+  .burger{display:none; width:34px;height:34px;position:relative;cursor:pointer;background:none;border:none;}
+  .burger span{position:absolute;left:6px;right:6px;height:2px;background:var(--ink);border-radius:2px;transition:transform .3s var(--ease), opacity .3s;}
+  .burger span:nth-child(1){top:12px;}
+  .burger span:nth-child(2){top:20px;}
+  .burger.open span:nth-child(1){transform:translateY(4px) rotate(45deg);}
+  .burger.open span:nth-child(2){transform:translateY(-4px) rotate(-45deg);}
+
+  @media (max-width:860px){
+    nav.links{
+      position:fixed; top:66px; left:16px; right:16px;
+      background:var(--bg); border:1px solid var(--border); border-radius:20px;
+      flex-direction:column; align-items:stretch; padding:10px;
+      box-shadow:var(--shadow);
+      transform-origin:top center;
+      transform:scaleY(0.85) translateY(-8px); opacity:0; pointer-events:none;
+      transition:transform .35s var(--ease), opacity .3s var(--ease);
+    }
+    nav.links.open{transform:scaleY(1) translateY(0); opacity:1; pointer-events:auto;}
+    nav.links a{padding:13px 16px;border-radius:12px;}
+    .nav-indicator{display:none;}
+    .nav-cta{margin:6px 4px 2px;justify-content:center;}
+    .burger{display:block;}
+  }
+
+  /* ---------- PAGES / TRANSITIONS ---------- */
+  main{padding-top:76px;min-height:70vh;}
+  .page{display:none;}
+  .page.active{display:block;}
+  .page.entering{animation:pageIn .6s var(--ease) both;}
+  @keyframes pageIn{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .7s var(--ease), transform .7s var(--ease);}
+  .reveal.revealed{opacity:1; transform:translateY(0);}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative; padding:64px 0 40px; overflow:hidden;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr; gap:48px;}}
+
+  .eyebrow-line{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .eyebrow-line .dash{width:26px;height:1.5px;background:var(--accent-deep);}
+  .eyebrow-line span{font-size:13.5px; color:var(--ink-soft);}
+
+  .hero h1{font-size:clamp(34px, 5vw, 60px); line-height:1.08; font-weight:520; max-width:12ch;}
+  .hero h1 .word{display:inline-block; opacity:0; transform:translateY(22px); animation:wordIn .8s var(--ease) forwards;}
+  @keyframes wordIn{to{opacity:1;transform:translateY(0);}}
+
+  .hero-sub{
+    margin-top:24px; font-size:17.5px; color:var(--ink-soft); max-width:44ch;
+    opacity:0; transform:translateY(14px); animation:fadeUp .8s var(--ease) forwards; animation-delay:.55s;
+  }
+  .hero-actions{
+    margin-top:34px; display:flex; gap:14px; align-items:center;
+    opacity:0; transform:translateY(14px); animation:fadeUp .8s var(--ease) forwards; animation-delay:.75s;
+  }
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+
+  .btn{
+    position:relative; display:inline-flex; align-items:center; gap:10px;
+    padding:15px 26px; border-radius:100px; font-size:14.5px; font-weight:500;
+    cursor:pointer; border:none; overflow:hidden; isolation:isolate;
+  }
+  .btn-primary{background:var(--ink); color:var(--bg);}
+  .btn-primary::before{
+    content:''; position:absolute; inset:0; background:var(--accent-deep); z-index:-1;
+    transform:translateX(-102%); transition:transform .45s var(--ease);
+  }
+  .btn-primary:hover::before{transform:translateX(0);}
+  .btn-primary:hover{color:#fff;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--accent-deep); color:var(--accent-deep);}
+  .btn svg{width:15px;height:15px; transition:transform .35s var(--ease);}
+  .btn:hover svg{transform:translateX(3px);}
+
+  .hero-photo-wrap{
+    position:relative; display:flex; justify-content:center; align-items:center;
+    opacity:0; animation:photoIn 1s var(--ease) forwards; animation-delay:.25s;
+  }
+  @keyframes photoIn{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
+  .blob{
+    position:absolute; width:112%; height:112%; z-index:0;
+    background:linear-gradient(135deg, var(--accent-tint), var(--accent-tint-2));
+    animation: blobMorph 12s ease-in-out infinite;
+    filter:blur(0px);
+  }
+  @keyframes blobMorph{
+    0%,100%{border-radius:42% 58% 65% 35% / 45% 40% 60% 55%;}
+    33%{border-radius:65% 35% 40% 60% / 55% 65% 35% 45%;}
+    66%{border-radius:38% 62% 55% 45% / 65% 40% 60% 35%;}
+  }
+  .hero-photo{
+    position:relative; z-index:1; width:min(380px, 78vw);
+    border-radius:50% 50% 46% 54% / 55% 55% 45% 45%;
+    overflow:hidden; border:1px solid var(--border);
+    transform-style:preserve-3d; transition:transform .25s var(--ease);
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;}
+  .accent-ring{
+    position:absolute; z-index:2; width:72px;height:72px; border-radius:50%;
+    border:1.5px solid var(--accent-deep); top:6%; right:6%;
+    animation:ringSpin 18s linear infinite;
+  }
+  .accent-ring::after{
+    content:''; position:absolute; width:6px;height:6px;border-radius:50%;
+    background:var(--accent-deep); top:-3px; left:50%; margin-left:-3px;
+  }
+  @keyframes ringSpin{to{transform:rotate(360deg);}}
+
+  /* ---------- SECTION DIVIDER (line draw) ---------- */
+  .divider{width:100%; margin:0 auto; display:block;}
+  .divider path{
+    fill:none; stroke:var(--border); stroke-width:1;
+    stroke-dasharray:1000; stroke-dashoffset:1000;
+    animation:draw 1.8s var(--ease) forwards; animation-delay:.2s;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section.block{padding:88px 0;}
+  section.block.tint{background:var(--accent-tint);}
+  .kicker{font-size:13.5px; color:var(--accent-deep); font-weight:500; margin-bottom:14px; display:flex; align-items:center; gap:9px;}
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-deep);}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px); line-height:1.18;}
+  .section-head p{margin-top:16px; color:var(--ink-soft); font-size:16px;}
+
+  /* approach columns */
+  .approach-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--border); border:1px solid var(--border); border-radius:20px; overflow:hidden;}
+  @media (max-width:800px){.approach-grid{grid-template-columns:1fr;}}
+  .approach-item{background:var(--bg); padding:38px 32px; transition:background .4s var(--ease);}
+  .approach-item:hover{background:var(--accent-tint);}
+  .approach-item .num{font-family:var(--font-display); font-size:14px; color:var(--accent-deep); margin-bottom:18px; display:block;}
+  .approach-item h3{font-size:19px; margin-bottom:10px; font-weight:560;}
+  .approach-item p{font-size:14.5px; color:var(--ink-soft);}
+
+  /* quote */
+  .quote-block{padding:100px 0; text-align:center;}
+  .quote-block blockquote{
+    font-family:var(--font-display); font-style:italic; font-weight:440;
+    font-size:clamp(22px,3vw,32px); line-height:1.45; max-width:760px; margin:0 auto; color:var(--ink);
+  }
+  .quote-block .attrib{margin-top:22px; font-size:13.5px; color:var(--ink-faint); font-style:normal;}
+
+  /* bio teaser */
+  .bio-teaser{display:grid; grid-template-columns:200px 1fr; gap:44px; align-items:center;}
+  @media (max-width:700px){.bio-teaser{grid-template-columns:1fr;}}
+  .bio-teaser img{border-radius:20px; aspect-ratio:1/1; object-fit:cover; border:1px solid var(--border);}
+  .bio-teaser .link-more{margin-top:18px; display:inline-flex; align-items:center; gap:8px; font-size:14.5px; font-weight:500; color:var(--accent-deep);}
+  .bio-teaser .link-more svg{width:14px;height:14px;transition:transform .3s var(--ease);}
+  .bio-teaser .link-more:hover svg{transform:translateX(4px);}
+
+  /* CTA footer band */
+  .cta-band{padding:90px 0; text-align:center;}
+  .cta-band h2{font-size:clamp(28px,4vw,44px); max-width:14ch; margin:0 auto 28px;}
+
+  footer{border-top:1px solid var(--border); padding:44px 0; font-size:13.5px; color:var(--ink-faint);}
+  .footer-inner{display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;}
+  .footer-inner .brand{gap:10px;}
+  .footer-inner .brand img{height:22px;}
+  .footer-links{display:flex;gap:22px;}
+  .footer-links a:hover{color:var(--ink);}
+
+  /* ---------- SERVIZI PAGE ---------- */
+  .page-header{padding:150px 0 60px;}
+  .page-header .kicker{margin-bottom:20px;}
+  .page-header h1{font-size:clamp(32px,5vw,54px); max-width:14ch;}
+  .page-header p.lead{margin-top:20px; font-size:17px; color:var(--ink-soft); max-width:56ch;}
+
+  .service-list{border-top:1px solid var(--border);}
+  .service-row{
+    display:grid; grid-template-columns:60px 1fr 200px; gap:24px; align-items:start;
+    padding:38px 0; border-bottom:1px solid var(--border);
+    transition:padding-left .4s var(--ease);
+  }
+  @media (max-width:760px){.service-row{grid-template-columns:44px 1fr; }}
+  .service-row:hover{padding-left:12px;}
+  .service-row .ic{width:40px;height:40px; color:var(--accent-deep);}
+  .service-row h3{font-size:21px; margin-bottom:10px; font-weight:560;}
+  .service-row p{color:var(--ink-soft); font-size:15px; max-width:52ch;}
+  .service-row .tag{font-size:13px; color:var(--ink-faint); text-align:right; padding-top:6px;}
+  @media (max-width:760px){.service-row .tag{display:none;}}
+
+  /* ---------- BIOGRAFIA PAGE ---------- */
+  .bio-hero{display:grid; grid-template-columns:340px 1fr; gap:60px; align-items:start; padding-bottom:20px;}
+  @media (max-width:860px){.bio-hero{grid-template-columns:1fr;}}
+  .bio-hero .photo-col img{border-radius:24px; width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--border);}
+  .bio-hero .text-col p{color:var(--ink-soft); margin-bottom:18px; font-size:16.5px;}
+  .bio-hero .text-col p.lede{font-family:var(--font-display); font-size:22px; color:var(--ink); font-weight:460; line-height:1.4; margin-bottom:26px;}
+
+  .specialty-tags{display:flex;flex-wrap:wrap;gap:10px; margin-top:10px;}
+  .specialty-tags span{
+    border:1px solid var(--border); padding:9px 16px; border-radius:100px; font-size:13.5px; color:var(--ink-soft);
+    transition:border-color .3s, color .3s;
+  }
+  .specialty-tags span:hover{border-color:var(--accent-deep); color:var(--accent-deep);}
+
+  /* ---------- BLOG PAGE ---------- */
+  .post-list{display:flex; flex-direction:column;}
+  .post-item{border-top:1px solid var(--border); padding:34px 0; cursor:pointer;}
+  .post-item:last-child{border-bottom:1px solid var(--border);}
+  .post-head{display:flex; justify-content:space-between; align-items:center; gap:20px;}
+  .post-head .meta{font-size:13px; color:var(--ink-faint); margin-bottom:8px;}
+  .post-head h3{font-size:22px; font-weight:560; transition:color .3s;}
+  .post-item:hover .post-head h3{color:var(--accent-deep);}
+  .post-head .plus{
+    width:32px;height:32px; border:1px solid var(--border); border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center; position:relative; transition:transform .4s var(--ease), border-color .3s;
+  }
+  .post-item.open .plus{transform:rotate(135deg); border-color:var(--accent-deep);}
+  .post-head .plus::before, .post-head .plus::after{content:'';position:absolute;background:var(--ink);}
+  .post-head .plus::before{width:12px;height:1.4px;}
+  .post-head .plus::after{width:1.4px;height:12px;}
+  .post-excerpt{margin-top:10px; color:var(--ink-soft); font-size:15px; max-width:70ch;}
+  .post-full{
+    max-height:0; overflow:hidden; transition:max-height .5s var(--ease), margin-top .5s var(--ease);
+    margin-top:0; color:var(--ink-soft); font-size:15px; line-height:1.75; max-width:70ch;
+  }
+  .post-item.open .post-full{margin-top:18px;}
+
+  /* ---------- CONTATTO PAGE ---------- */
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:start;}
+  @media (max-width:900px){.contact-grid{grid-template-columns:1fr; gap:50px;}}
+  .field{margin-bottom:20px;}
+  .field label{display:block; font-size:13px; color:var(--ink-soft); margin-bottom:8px;}
+  .field input, .field textarea{
+    width:100%; padding:14px 16px; border:1px solid var(--border); border-radius:12px;
+    background:transparent; color:var(--ink); font-family:var(--font-body); font-size:15px;
+    transition:border-color .3s, box-shadow .3s;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none; border-color:var(--accent-deep); box-shadow:0 0 0 4px var(--accent-tint);
+  }
+  .field textarea{resize:vertical; min-height:120px;}
+  .contact-info-item{display:flex; gap:16px; align-items:flex-start; padding:20px 0; border-top:1px solid var(--border);}
+  .contact-info-item:last-child{border-bottom:1px solid var(--border);}
+  .contact-info-item .ic{width:20px;height:20px; color:var(--accent-deep); margin-top:2px; flex:none;}
+  .contact-info-item .lbl{font-size:12.5px; color:var(--ink-faint); margin-bottom:4px;}
+  .contact-info-item .val{font-size:15.5px;}
+  .placeholder-note{font-size:12.5px; color:var(--ink-faint); font-style:italic;}
+
+  .form-confirm{
+    margin-top:18px; padding:14px 18px; border-radius:12px; background:var(--accent-tint);
+    color:var(--accent-deep); font-size:14px; display:none; align-items:center; gap:10px;
+  }
+  .form-confirm.show{display:flex; animation:fadeUp .5s var(--ease);}
+  .form-confirm svg{width:16px;height:16px;flex:none;}
+
+  .illustration{width:100%; max-width:340px; margin:0 auto;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="siteNav">
+  <div class="nav-inner">
+    <div class="brand" data-route="home">
+      <img src="logo.png" alt="Logo">
+      <div class="brand-text">
+        <div class="name">Claudio Belardo</div>
+        <div class="role">Psicologo</div>
+      </div>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+    <nav class="links" id="navLinks">
+      <div class="nav-indicator" id="navIndicator"></div>
+      <a href="#home" data-route="home">Home</a>
+      <a href="#servizi" data-route="servizi">Servizi</a>
+      <a href="#biografia" data-route="biografia">Biografia</a>
+      <a href="#blog" data-route="blog">Blog</a>
+      <a href="#contatto" data-route="contatto">Contatto</a>
+      <a href="#contatto" class="nav-cta" data-route="contatto">Prenota un colloquio</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HOME ============ -->
+  <section class="page" id="page-home" data-page="home">
+    <div class="hero wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow-line"><span class="dash"></span><span>Psicologo · colloqui individuali e di coppia</span></div>
+          <h1 id="heroHeadline">
+            <span class="word" style="animation-delay:.05s">Uno</span>
+            <span class="word" style="animation-delay:.12s">spazio</span>
+            <span class="word" style="animation-delay:.19s">per</span>
+            <span class="word" style="animation-delay:.26s">capire,</span><br>
+            <span class="word" style="animation-delay:.34s">prima</span>
+            <span class="word" style="animation-delay:.41s">che</span>
+            <span class="word" style="animation-delay:.48s">per</span>
+            <span class="word" style="animation-delay:.55s">giudicare.</span>
+          </h1>
+          <p class="hero-sub">Percorsi di sostegno psicologico costruiti sulla persona che ho davanti — non su un modello fisso. In studio o online, con la riservatezza e il tempo che ogni percorso merita.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary magnetic" data-route="contatto">Prenota un primo colloquio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="btn btn-ghost magnetic" data-route="servizi">Scopri i servizi</button>
+          </div>
+        </div>
+        <div class="hero-photo-wrap">
+          <div class="blob"></div>
+          <div class="hero-photo" id="tiltPhoto">
+            <img src="logo.png">
+          </div>
+          <div class="accent-ring"></div>
+        </div>
+      </div>
+    </div>
+
+    <svg class="divider" viewBox="0 0 1180 40" preserveAspectRatio="none" height="40"><path d="M0,20 C 200,0 400,40 600,20 S 1000,0 1180,20"/></svg>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="kicker"><span class="dot"></span>Come lavoro</div>
+          <h2>Un metodo chiaro, un ritmo umano.</h2>
+        </div>
+        <div class="approach-grid">
+          <div class="approach-item reveal">
+            <span class="num">01</span>
+            <h3>Ascolto autentico</h3>
+            <p>Ogni percorso nasce da una relazione di fiducia costruita nel tempo, senza fretta e senza schemi imposti dall'esterno.</p>
+          </div>
+          <div class="approach-item reveal">
+            <span class="num">02</span>
+            <h3>Strumenti solidi</h3>
+            <p>Un metodo clinico chiaro, adattato alla persona che ho davanti — non il contrario.</p>
+          </div>
+          <div class="approach-item reveal">
+            <span class="num">03</span>
+            <h3>Percorsi su misura</h3>
+            <p>Colloqui individuali, di coppia o di orientamento, in studio o in videochiamata, secondo ciò che serve davvero.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-block tint">
+      <div class="wrap">
+        <blockquote class="reveal">"Non tutto ciò che si affronta può essere cambiato subito. Ma nulla cambia davvero finché non lo si guarda con chiarezza."</blockquote>
+        <div class="attrib reveal">— una riflessione che guida il mio modo di lavorare</div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="bio-teaser reveal">
+          <img src="claudio2.jpg" alt="Dott. Claudio Belardo">
+          <div>
+            <div class="kicker"><span class="dot"></span>Chi sono</div>
+            <h2 style="font-size:26px; margin-bottom:14px;">Claudio Belardo, psicologo</h2>
+            <p style="color:var(--ink-soft); font-size:16px; max-width:56ch;">Il mio lavoro parte da un'idea semplice: ogni persona porta con sé risorse spesso nascoste, che il percorso terapeutico aiuta a riconoscere e a usare.</p>
+            <a class="link-more" data-route="biografia">Leggi la biografia completa
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap">
+        <h2 class="reveal">Il primo passo è una conversazione.</h2>
+        <button class="btn btn-primary magnetic reveal" data-route="contatto">Scrivimi oggi
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ SERVIZI ============ -->
+  <section class="page" id="page-servizi" data-page="servizi">
+    <div class="wrap page-header">
+      <div class="kicker reveal"><span class="dot"></span>Servizi</div>
+      <h1 class="reveal">Percorsi pensati sulla persona, non sull'etichetta.</h1>
+      <p class="lead reveal">Ogni intervento viene calibrato sulla situazione specifica: qui sotto trovi un'idea dei percorsi che propongo più spesso.</p>
+    </div>
+    <div class="wrap">
+      <div class="service-list">
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <div><h3>Colloqui individuali</h3><p>Uno spazio protetto per affrontare momenti di difficoltà, cambiamento o crescita personale, al ritmo che serve a te.</p></div>
+          <div class="tag">In studio · online</div>
+        </div>
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2 21c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5M10 21c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5"/></svg>
+          <div><h3>Percorsi di coppia</h3><p>Uno spazio condiviso per affrontare crisi, comunicazione difficile o decisioni importanti da prendere insieme.</p></div>
+          <div class="tag">In studio</div>
+        </div>
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-4 4-7 7.5-7 11a7 7 0 0 0 14 0c0-3.5-3-7-7-11Z"/></svg>
+          <div><h3>Gestione di ansia e stress</h3><p>Strumenti pratici e di consapevolezza per ritrovare equilibrio nei momenti di sovraccarico.</p></div>
+          <div class="tag">In studio · online</div>
+        </div>
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
+          <div><h3>Sostegno nei momenti di transizione</h3><p>Lutti, cambiamenti di vita o difficoltà lavorative: un accompagnamento nei passaggi più delicati.</p></div>
+          <div class="tag">In studio · online</div>
+        </div>
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <div><h3>Consulenza psicologica online</h3><p>Colloqui in videochiamata, con la stessa cura, riservatezza e continuità di un incontro in studio.</p></div>
+          <div class="tag">Online</div>
+        </div>
+        <div class="service-row reveal">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3.5"/></svg>
+          <div><h3>Colloquio di orientamento</h3><p>Un primo incontro pensato per capire insieme, senza impegno, il percorso più adatto a te.</p></div>
+          <div class="tag">In studio · online</div>
+        </div>
+      </div>
+    </div>
+    <section class="cta-band">
+      <div class="wrap">
+        <h2 class="reveal">Non sai quale percorso fa per te?</h2>
+        <button class="btn btn-primary magnetic reveal" data-route="contatto">Parliamone insieme
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ BIOGRAFIA ============ -->
+  <section class="page" id="page-biografia" data-page="biografia">
+    <div class="wrap page-header" style="padding-bottom:20px;">
+      <div class="kicker reveal"><span class="dot"></span>Biografia</div>
+    </div>
+    <div class="wrap bio-hero">
+      <div class="photo-col reveal">
+        <img src="claudio3.png" alt="Dott. Claudio Belardo">
+      </div>
+      <div class="text-col reveal">
+        <p class="lede">Sono Claudio Belardo, psicologo. Credo che ogni persona porti con sé risorse spesso nascoste, che il percorso terapeutico aiuta a riconoscere e a usare.</p>
+        <p>Il mio lavoro nasce dall'incontro tra rigore clinico e ascolto autentico: strumenti solidi, messi al servizio della persona che ho davanti, mai il contrario.</p>
+        <p>Nel tempo ho scelto di specializzarmi nel sostegno individuale, nei percorsi di coppia e nella gestione dei momenti di transizione — cambiamenti di vita, ansia, difficoltà relazionali — mantenendo un aggiornamento costante attraverso formazione e supervisione clinica.</p>
+        <p>Lavoro in studio e online, per rendere il percorso accessibile a chi ha bisogno di flessibilità senza rinunciare alla continuità della relazione terapeutica.</p>
+        <div class="specialty-tags">
+          <span>Sostegno individuale</span>
+          <span>Percorsi di coppia</span>
+          <span>Ansia e stress</span>
+          <span>Momenti di transizione</span>
+          <span>Consulenza online</span>
+        </div>
+      </div>
+    </div>
+    <section class="cta-band">
+      <div class="wrap">
+        <h2 class="reveal">Vuoi conoscermi di persona?</h2>
+        <button class="btn btn-primary magnetic reveal" data-route="contatto">Prenota un primo colloquio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ BLOG ============ -->
+  <section class="page" id="page-blog" data-page="blog">
+    <div class="wrap page-header">
+      <div class="kicker reveal"><span class="dot"></span>Blog</div>
+      <h1 class="reveal">Appunti su ansia, relazioni e cambiamento.</h1>
+      <p class="lead reveal">Riflessioni brevi, pensate per essere utili anche fuori dalla stanza di terapia.</p>
+    </div>
+    <div class="wrap">
+      <div class="post-list">
+        <article class="post-item reveal">
+          <div class="post-head">
+            <div>
+              <div class="meta">18 Agosto 2026 · Categoria 1</div>
+              <h3>Come gestire l’ansia prima di una gara</h3>
+            </div>
+            <span class="plus"></span>
+          </div>
+          <p class="post-excerpt">L'ansia spesso si presenta prima nel corpo che nei pensieri. Imparare a riconoscerne i segnali iniziali è il primo passo per gestirla.</p>
+          <div class="post-full">
+            <p>Prima ancora di riconoscere un pensiero ansioso, spesso il corpo ce lo comunica: tensione al petto, respiro corto, difficoltà a stare fermi. Imparare ad ascoltare questi segnali, invece di ignorarli finché non diventano ingestibili, permette di intervenire prima che l'ansia prenda il sopravvento sulla giornata.</p>
+            <p>In un percorso di sostegno psicologico, uno dei primi passi è proprio questo: costruire insieme un vocabolario condiviso per nominare ciò che si prova, così da poterlo affrontare con più chiarezza.</p>
+          </div>
+        </article>
+        <article class="post-item reveal">
+          <div class="post-head">
+            <div>
+              <div class="meta">28 agosto 2026 · 5 min di lettura</div>
+              <h3>Come comunicare in coppia senza litigare</h3>
+            </div>
+            <span class="plus"></span>
+          </div>
+          <p class="post-excerpt">Non è il disaccordo il problema, ma il modo in cui lo affrontiamo. Alcuni spunti pratici per parlarsi davvero.</p>
+          <div class="post-full">
+            <p>Molte coppie non litigano perché sono in disaccordo, ma perché non hanno un modo condiviso per esprimere quel disaccordo senza sentirsi attaccate. Rallentare, usare frasi che partono da "io sento" invece che da "tu fai sempre", e concedersi delle pause quando la tensione sale, sono strumenti semplici ma efficaci.</p>
+            <p>Un percorso di coppia non serve solo nei momenti di crisi: può essere anche uno spazio di manutenzione, per imparare a comunicare meglio prima che i piccoli attriti diventino distanza.</p>
+          </div>
+        </article>
+        <article class="post-item reveal">
+          <div class="post-head">
+            <div>
+              <div class="meta">14 luglio 2026 · 3 min di lettura</div>
+              <h3>Il valore del silenzio in terapia</h3>
+            </div>
+            <span class="plus"></span>
+          </div>
+          <p class="post-excerpt">Non ogni momento di silenzio va riempito. A volte è proprio lì che succede qualcosa di importante.</p>
+          <div class="post-full">
+            <p>In una seduta, il silenzio può sembrare un vuoto da colmare in fretta. Spesso è vero il contrario: è nello spazio del silenzio che un pensiero trova il tempo di formarsi, o che un'emozione può finalmente essere sentita senza essere subito spiegata o giustificata.</p>
+            <p>Imparare a stare nel silenzio, anche fuori dalla terapia, è una competenza che si allena — e che spesso cambia il modo in cui viviamo anche le relazioni quotidiane.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTATTO ============ -->
+  <section class="page" id="page-contatto" data-page="contatto">
+    <div class="wrap page-header">
+      <div class="kicker reveal"><span class="dot"></span>Contatto</div>
+      <h1 class="reveal">Scriviamoci.</h1>
+      <p class="lead reveal">Compila il modulo oppure scrivi direttamente ai recapiti qui sotto: ti risponderò per fissare un primo colloquio conoscitivo.</p>
+    </div>
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="reveal">
+          <form id="contactForm">
+            <div class="field">
+              <label for="cf-name">Nome e cognome</label>
+              <input id="cf-name" type="text" required placeholder="Il tuo nome">
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input id="cf-email" type="email" required placeholder="nome@email.it">
+            </div>
+            <div class="field">
+              <label for="cf-msg">Messaggio</label>
+              <textarea id="cf-msg" required placeholder="Raccontami brevemente il motivo della richiesta"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary magnetic">Invia richiesta
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <div class="form-confirm" id="formConfirm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+              Grazie, il messaggio è pronto per l'invio — ricordati di collegare il modulo a un servizio email.
+            </div>
+          </form>
+        </div>
+        <div class="reveal">
+          <div class="contact-info-item">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2Z"/></svg>
+            <div><div class="lbl">Telefono</div><div class="val">[Numero di telefono]</div></div>
+          </div>
+          <div class="contact-info-item">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <div><div class="lbl">Email</div><div class="val">[email@studiobelardo.it]</div></div>
+          </div>
+          <div class="contact-info-item">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+            <div><div class="lbl">Studio</div><div class="val">[Indirizzo dello studio, Città]</div></div>
+          </div>
+          <div class="contact-info-item">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <div><div class="lbl">Orari di ricevimento</div><div class="val">[Giorni e orari]</div></div>
+          </div>
+          <p class="placeholder-note" style="margin-top:16px;">I recapiti qui sopra sono segnaposto: sostituiscili con i tuoi dati reali.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="brand" data-route="home">
+      <img src="logo.png" alt="Logo">
+      <div class="brand-text"><div class="name" style="font-size:14px;">Claudio Belardo</div></div>
+    </div>
+    <div class="footer-links">
+      <a data-route="servizi">Servizi</a>
+      <a data-route="biografia">Biografia</a>
+      <a data-route="blog">Blog</a>
+      <a data-route="contatto">Contatto</a>
+    </div>
+    <div>© 2026 Claudio Belardo — Psicologo</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const routes = ['home','servizi','biografia','blog','contatto'];
+  const pages = {};
+  routes.forEach(r => pages[r] = document.getElementById('page-'+r));
+  const navLinks = document.querySelectorAll('nav.links a[data-route]');
+  const indicator = document.getElementById('navIndicator');
+  const nav = document.getElementById('siteNav');
+  const navLinksEl = document.getElementById('navLinks');
+  const burger = document.getElementById('burger');
+
+  function revealAll(container){
+    const items = container.querySelectorAll('.reveal');
+    items.forEach((el, i) => {
+      el.classList.remove('revealed');
+      void el.offsetWidth;
+      setTimeout(()=> el.classList.add('revealed'), 60 + i*70);
+    });
+  }
+
+  function positionIndicator(link){
+    if(!link || window.innerWidth <= 860) return;
+    const navRect = navLinksEl.getBoundingClientRect();
+    const r = link.getBoundingClientRect();
+    indicator.style.width = r.width + 'px';
+    indicator.style.transform = 'translateX(' + (r.left - navRect.left) + 'px)';
+  }
+
+  function setRoute(route, push){
+    if(!pages[route]) route = 'home';
+    routes.forEach(r=>{
+      pages[r].classList.remove('active','entering');
+    });
+    const target = pages[route];
+    target.classList.add('active');
+    void target.offsetWidth;
+    target.classList.add('entering');
+
+    navLinks.forEach(a=>{
+      a.classList.toggle('active', a.dataset.route === route && !a.classList.contains('nav-cta'));
+    });
+    const activeLink = document.querySelector('nav.links a[data-route="'+route+'"]:not(.nav-cta)');
+    positionIndicator(activeLink);
+
+    window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
+    revealAll(target);
+    navLinksEl.classList.remove('open');
+    burger.classList.remove('open');
+
+    if(push) history.replaceState(null,'', '#'+route);
+  }
+
+  document.querySelectorAll('[data-route]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.preventDefault();
+      setRoute(el.dataset.route, true);
+    });
+  });
+
+  burger.addEventListener('click', ()=>{
+    navLinksEl.classList.toggle('open');
+    burger.classList.toggle('open');
+  });
+
+  window.addEventListener('resize', ()=>{
+    const activeLink = document.querySelector('nav.links a.active');
+    positionIndicator(activeLink);
+  });
+
+  window.addEventListener('scroll', ()=>{
+    nav.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  // initial route
+  const initial = (location.hash || '#home').replace('#','');
+  setRoute(routes.includes(initial) ? initial : 'home', false);
+
+  // magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = 'translate('+ (x*0.18) +'px,'+ (y*0.35) +'px)';
+    });
+    btn.addEventListener('mouseleave', ()=>{ btn.style.transform = ''; });
+  });
+
+  // tilt photo
+  const tiltPhoto = document.getElementById('tiltPhoto');
+  if(tiltPhoto){
+    document.addEventListener('mousemove', (e)=>{
+      const r = tiltPhoto.getBoundingClientRect();
+      const cx = r.left + r.width/2, cy = r.top + r.height/2;
+      const dx = (e.clientX - cx) / window.innerWidth;
+      const dy = (e.clientY - cy) / window.innerHeight;
+      tiltPhoto.style.transform = 'rotateY('+(dx*8)+'deg) rotateX('+(-dy*8)+'deg)';
+    });
+  }
+
+  // blog accordion
+  document.querySelectorAll('.post-item').forEach(item=>{
+    item.querySelector('.post-head').addEventListener('click', ()=>{
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.post-item.open').forEach(o=>{
+        if(o!==item){ o.classList.remove('open'); o.querySelector('.post-full').style.maxHeight = null; }
+      });
+      item.classList.toggle('open');
+      const full = item.querySelector('.post-full');
+      full.style.maxHeight = item.classList.contains('open') ? full.scrollHeight+'px' : null;
+    });
+  });
+
+  // contact form
+  const form = document.getElementById('contactForm');
+  if(form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      document.getElementById('formConfirm').classList.add('show');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
