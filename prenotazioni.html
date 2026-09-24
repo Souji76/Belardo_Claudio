@@ -3,8 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO di base -->
+<meta name="description" content="Sito ufficiale del Dott. Claudio Belardo, Psicologo a Caserta. Consulenza psicologica, sostegno alla persona, percorsi clinici e supporto per il benessere mentale. Prenota una seduta.">
+<meta name="keywords" content="psicologo Caserta, Dott. Claudio Belardo, psicologo clinico, terapia psicologica Caserta, prenotare seduta psicologo">
+<link rel="canonical" href="https://tuodominio.altervista.org/index.html">
+
+<!-- Open Graph (per una condivisione perfetta su WhatsApp, Facebook, LinkedIn) -->
+<meta property="og:title" content="Dott. Claudio Belardo — Psicologo a Caserta">
+<meta property="og:description" content="Consulenza psicologica e percorsi di sostegno alla persona. Prenota il tuo appuntamento online o in studio.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tuodominio.altervista.org/index.html">
+<meta property="og:image" content="https://tuodominio.altervista.org/logon.png">
   <title>Prenotazioni - Claudio Belardo</title>
-  
+
   <!-- Google Fonts: Fraunces per i titoli, Inter per il corpo -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +44,7 @@
       font-size: 16px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
@@ -43,6 +55,7 @@
       max-width: 900px;
       margin: 0 auto;
       padding: 0 24px;
+      position: relative;
     }
 
     /* ---------- NAVBAR PRINCIPALE NERA ---------- */
@@ -51,7 +64,9 @@
       background: rgba(17, 17, 17, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: box-shadow .4s var(--ease);
     }
+    header.nav.scrolled { box-shadow: 0 10px 30px -15px rgba(0,0,0,0.35); }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
       padding: 18px 32px; max-width: 1180px; margin: 0 auto;
@@ -97,6 +112,24 @@
     main {
       padding-top: 150px;
       padding-bottom: 100px;
+      position: relative;
+    }
+
+    /* Forma decorativa morbida sullo sfondo dell'intestazione: un unico gesto animato */
+    .ambient-shape {
+      position: absolute; top: -60px; right: -120px; width: 420px; height: 420px;
+      background: linear-gradient(135deg, #f4f4f5, #e9e9eb);
+      z-index: -1; filter: blur(2px);
+      animation: shapeMorph 16s ease-in-out infinite, shapeDrift 16s ease-in-out infinite;
+    }
+    @keyframes shapeMorph {
+      0%, 100% { border-radius: 42% 58% 65% 35% / 45% 40% 60% 55%; }
+      33% { border-radius: 65% 35% 40% 60% / 55% 65% 35% 45%; }
+      66% { border-radius: 38% 62% 55% 45% / 65% 40% 60% 35%; }
+    }
+    @keyframes shapeDrift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-16px, 18px); }
     }
 
     .booking-header {
@@ -106,12 +139,25 @@
     .booking-header .kicker {
       font-size: 13px; color: var(--ink-faint); font-weight: 500; margin-bottom: 12px;
       text-transform: uppercase; letter-spacing: 0.08em;
+      opacity: 0; transform: translateY(10px);
+      animation: fadeUp .7s var(--ease) forwards;
     }
     .booking-header h1 {
       font-size: clamp(32px, 4.5vw, 48px);
       line-height: 1.15;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp .8s var(--ease) forwards;
+      animation-delay: .12s;
     }
+    .booking-header .underline {
+      width: 46px; height: 2px; background: #111111; margin: 0 auto 26px;
+      border-radius: 2px; transform: scaleX(0); transform-origin: center;
+      animation: lineIn .8s var(--ease) forwards;
+      animation-delay: .5s;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes lineIn { to { transform: scaleX(1); } }
 
     /* Box Informativo / Nota Istituzionale */
     .notice-box {
@@ -119,7 +165,7 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 32px 36px;
-      margin-bottom: 50px;
+      margin-bottom: 56px;
     }
     .notice-box p {
       color: var(--ink-soft);
@@ -133,6 +179,48 @@
       color: var(--ink);
     }
 
+    /* ---------- COME FUNZIONA: percorso a 3 fasi ---------- */
+    .steps-section { margin-bottom: 56px; }
+    .steps-section h2 {
+      font-size: 22px; text-align: center; margin-bottom: 40px;
+    }
+    .steps {
+      display: flex; justify-content: space-between; align-items: flex-start; position: relative;
+    }
+    .step {
+      position: relative; text-align: center; padding: 0 14px; flex: 1;
+      opacity: 0; transform: translateY(14px);
+      animation: fadeUp .6s var(--ease) forwards;
+    }
+    .step:nth-of-type(2) { animation-delay: .15s; }
+    .step:nth-of-type(3) { animation-delay: .3s; }
+    .step:not(:last-child)::after {
+      content: ''; position: absolute; top: 26px; left: 50%; width: 100%; height: 1.5px;
+      background: var(--ink); z-index: 1; transform-origin: left center; transform: scaleX(0);
+      animation: lineFill 1s var(--ease) forwards; animation-delay: .6s;
+    }
+    @keyframes lineFill { to { transform: scaleX(1); } }
+    .step-circle {
+      width: 52px; height: 52px; border-radius: 50%; background: #ffffff;
+      border: 1.5px solid var(--ink); margin: 0 auto 18px; position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      animation: popIn .5s var(--ease) both; animation-delay: .35s;
+    }
+    @keyframes popIn { 0% { transform: scale(.6); } 70% { transform: scale(1.08); } 100% { transform: scale(1); } }
+    .step-circle svg { width: 20px; height: 20px; stroke: var(--ink); }
+    .step-num {
+      position: absolute; top: -4px; right: -4px; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--ink); color: #fff; font-size: 11px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step h3 { font-size: 16px; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--ink-soft); line-height: 1.6; max-width: 22ch; margin: 0 auto; }
+
+    @media (max-width: 700px) {
+      .steps { flex-direction: column; gap: 34px; }
+      .step:not(:last-child)::after { display: none; }
+    }
+
     /* ---------- FORM SEZIONE ---------- */
     .form-card {
       background: var(--bg);
@@ -140,6 +228,8 @@
       border-radius: 20px;
       padding: 44px;
       box-shadow: 0 20px 40px -20px rgba(0,0,0,0.05);
+      opacity: 0; transform: translateY(14px);
+      animation: fadeUp .7s var(--ease) forwards; animation-delay: .1s;
     }
     .form-card h2 {
       font-size: 24px;
@@ -161,44 +251,81 @@
     }
 
     .field { margin-bottom: 20px; }
-    .field label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-soft); margin-bottom: 8px; }
+    .field label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-soft); margin-bottom: 8px; transition: color .3s; }
+    .field.focused label { color: var(--ink); }
     .field input, .field textarea {
       width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px;
       background: var(--surface); color: var(--ink); font-family: var(--font-body); font-size: 15px;
-      transition: border-color .3s, box-shadow .3s;
+      transition: border-color .3s var(--ease), box-shadow .3s var(--ease), transform .3s var(--ease);
     }
     .field input:focus, .field textarea:focus {
       outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
     }
     .field textarea { resize: vertical; min-height: 140px; }
 
     .btn-submit {
       display: inline-flex; align-items: center; justify-content: center; gap: 10px;
       width: 100%; padding: 16px 28px; border-radius: 100px; background: var(--ink); color: #ffffff;
-      font-size: 15px; font-weight: 500; cursor: pointer; border: none; transition: background .3s, transform .2s;
-      margin-top: 10px;
+      font-size: 15px; font-weight: 500; cursor: pointer; border: none;
+      transition: background .3s, transform .2s; margin-top: 10px; position: relative;
     }
     .btn-submit:hover { background: #333333; transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit[disabled] { opacity: .7; cursor: default; transform: none; }
+    .btn-submit .spinner {
+      width: 15px; height: 15px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4);
+      border-top-color: #ffffff; animation: spin .7s linear infinite; display: none;
+    }
+    .btn-submit.loading .spinner { display: inline-block; }
+    .btn-submit.loading .btn-label { opacity: .85; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* Messaggi di stato */
-    .form-confirm {
-      margin-top: 20px; padding: 16px 20px; border-radius: 12px; background: #f0fdf4;
-      border: 1px solid #bbf7d0; color: #166534; font-size: 14px; display: none; align-items: center; gap: 10px;
+    .form-confirm, .form-error {
+      margin-top: 20px; padding: 16px 20px; border-radius: 12px; font-size: 14px;
+      align-items: center; gap: 12px; max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .5s var(--ease), opacity .4s var(--ease), padding .4s var(--ease);
+      display: flex;
     }
-    .form-confirm.show { display: flex; }
-    
-    .form-error {
-      margin-top: 20px; padding: 16px 20px; border-radius: 12px; background: #fef2f2;
-      border: 1px solid #fecaca; color: #991b1b; font-size: 14px; display: none; align-items: center; gap: 10px;
+    .form-confirm { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+    .form-error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .form-confirm.show, .form-error.show {
+      max-height: 120px; opacity: 1; padding: 16px 20px; margin-top: 20px;
     }
-    .form-error.show { display: flex; }
+    .form-confirm:not(.show), .form-error:not(.show) { margin-top: 0; border-width: 0; padding-top: 0; padding-bottom: 0; }
 
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 30px 0;
-      text-align: center;
-      font-size: 13px;
-      color: var(--ink-faint);
+    .check-icon circle {
+      stroke-dasharray: 63; stroke-dashoffset: 63;
+      animation: circleDraw .5s var(--ease) forwards;
+    }
+    .check-icon path {
+      stroke-dasharray: 20; stroke-dashoffset: 20;
+      animation: checkDraw .35s var(--ease) forwards; animation-delay: .45s;
+    }
+    .form-confirm.show .check-icon circle,
+    .form-confirm.show .check-icon path { animation-play-state: running; }
+    @keyframes circleDraw { to { stroke-dashoffset: 0; } }
+    @keyframes checkDraw { to { stroke-dashoffset: 0; } }
+
+    footer { border-top: 1px solid var(--border); }
+    .footer-links a { transition: opacity .25s var(--ease); opacity: .85; }
+    .footer-links a:hover { opacity: 1; text-decoration: underline; }
+
+    /* ---------- COOKIE BANNER: entrata animata dal basso ---------- */
+    #cookieBanner {
+      transform: translateY(100%);
+      transition: transform .5s var(--ease);
+    }
+    #cookieBanner.visible { transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+      .ambient-shape { display: none; }
     }
   </style>
 </head>
@@ -225,117 +352,277 @@
     </div>
   </header>
 
-  <main class="wrap">
-    
-    <!-- Intestazione della pagina -->
-    <div class="booking-header">
-      <div class="kicker">Accesso ai percorsi</div>
-      <br>Sezione Prenotazioni<br></h1>
-    </div>
+  <main>
+    <div class="wrap">
+      <div class="ambient-shape" aria-hidden="true"></div>
 
-    <!-- Testo descrittivo -->
-    <div class="notice-box">
-      <p>Benvenuti nella sezione prenotazioni del Dott. Belardo. A seguito dei correnti impegni istituzionali e delle attività cliniche e di consulenza sul territorio nazionale, la disponibilità per l’accettazione di nuovi pazienti è limitata.</p>
-      <p>Ogni richiesta ricevuta verrà valutata con la massima attenzione per verificare la sostenibilità temporale del percorso, garantendo così gli standard di cura e l’adeguato tempo terapeutico richiesti dal codice deontologico.</p>
-      <p>Una volta inviato il modulo, verrete ricontattati per ricevere un riscontro sulla fattibilità della presa in carico o sull’eventuale inserimento in lista d’attesa.</p>
-    </div>
+      <!-- Intestazione della pagina -->
+      <div class="booking-header">
+        <div class="kicker">Accesso ai percorsi</div>
+        <h1>Sezione Prenotazioni</h1>
+        <div class="underline"></div>
+      </div>
 
-    <!-- Modulo di contatto -->
-    <div class="form-card">
-      <h2>Invia una richiesta</h2>
-      <form id="bookingForm" action="https://formspree.io/f/xqpalbzj" method="POST">
-        <div class="form-grid">
-          
-          <div class="field">
-            <label for="name">Nome e Cognome</label>
-            <input type="text" id="name" name="Nome" required placeholder="Mario Rossi">
+      <!-- Testo descrittivo -->
+      <div class="notice-box">
+        <p>Benvenuti nella sezione prenotazioni del Dott. Belardo. A seguito dei correnti impegni istituzionali e delle attività cliniche e di consulenza sul territorio nazionale, la disponibilità per l'accettazione di nuovi pazienti è limitata.</p>
+        <p>Ogni richiesta ricevuta verrà valutata con la massima attenzione per verificare la sostenibilità temporale del percorso, garantendo così gli standard di cura e l'adeguato tempo terapeutico richiesti dal codice deontologico.</p>
+        <p>Una volta inviato il modulo, verrete ricontattati per ricevere un riscontro sulla fattibilità della presa in carico o sull'eventuale inserimento in lista d'attesa.</p>
+      </div>
+
+      <!-- Come funziona -->
+      <div class="steps-section">
+        <h2>Come funziona</h2>
+        <div class="steps" id="stepsRow">
+          <div class="step">
+            <div class="step-circle">
+              <span class="step-num">1</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+            </div>
+            <h3>Invio della richiesta</h3>
+            <p>Compili il modulo con i suoi dati e una breve descrizione del suo percorso.</p>
           </div>
 
-          <div class="field">
-            <label for="email">Indirizzo Email</label>
-            <input type="email" id="email" name="Email" required placeholder="mario.rossi@example.it">
+          <div class="step">
+            <div class="step-circle">
+              <span class="step-num">2</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <h3>Valutazione</h3>
+            <p>La richiesta viene analizzata per verificarne la sostenibilità e i tempi terapeutici.</p>
           </div>
 
-          <div class="field full">
-            <label for="phone">Recapito Telefonico</label>
-            <input type="tel" id="phone" name="Telefono" placeholder="+39 333 1234567">
+          <div class="step">
+            <div class="step-circle">
+              <span class="step-num">3</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H7l-3 3Z"/><path d="m4 4 8 6 8-6"/></svg>
+            </div>
+            <h3>Riscontro</h3>
+            <p>Verrà ricontattato con l'esito: presa in carico o inserimento in lista d'attesa.</p>
           </div>
-
-          <div class="field full">
-            <label for="message">Descrizione della richiesta</label>
-            <textarea id="message" name="Messaggio" required placeholder="Invia una breve descrizione della tua richiesta..."></textarea>
-          </div>
-
-          <div class="field full" style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px;">
-            <input type="checkbox" id="privacy" name="Privacy" required style="width: 18px; height: 18px; margin-top: 3px; cursor: pointer;">
-            <label for="privacy" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; cursor: pointer; margin-bottom: 0;">
-              Dichiaro di aver preso visione dell'informativa resa ai sensi del GDPR e acconsento al trattamento dei dati personali per la gestione della richiesta di contatto. (* <a href="privacy_policy.html" target="_blank" style="color: var(--ink); text-decoration: underline; font-weight: 500;">Leggi la Privacy Policy</a>)
-            </label>
-          </div>
-
-          <div class="form-grid full" style="margin: 0;">
-            <button type="submit" class="btn-submit">Invia richiesta di valutazione</button>
-          </div>
-
         </div>
-      </form>
+      </div>
 
-      <!-- Feedback visivo invio -->
-      <div id="formConfirm" class="form-confirm">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
-        <span>Richiesta inviata con successo. La ringraziamo, verrà ricontattato al più presto.</span>
+      <!-- Modulo di contatto -->
+      <div class="form-card" id="formCard">
+        <h2>Invia una richiesta</h2>
+        <form id="bookingForm" action="https://formsubmit.co/ajax/claudiobelardo@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Nuova richiesta di prenotazione dal sito">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="name">Nome e Cognome</label>
+              <input type="text" id="name" name="Nome" required placeholder="Mario Rossi">
+            </div>
+
+            <div class="field">
+              <label for="email">Indirizzo Email</label>
+              <input type="email" id="email" name="Email" required placeholder="mario.rossi@example.it">
+            </div>
+
+            <div class="field full">
+              <label for="phone">Recapito Telefonico</label>
+              <input type="tel" id="phone" name="Telefono" placeholder="+39 333 1234567">
+            </div>
+
+            <div class="field full">
+              <label for="message">Descrizione della richiesta</label>
+              <textarea id="message" name="Messaggio" required placeholder="Invia una breve descrizione della tua richiesta..."></textarea>
+            </div>
+
+            <div class="field full" style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 24px;">
+              <input type="checkbox" id="privacy" name="Privacy" required style="width: 18px; height: 18px; margin-top: 3px; cursor: pointer;">
+              <label for="privacy" style="font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; cursor: pointer; margin-bottom: 0;">
+                Dichiaro di aver preso visione dell'informativa resa ai sensi del GDPR e acconsento al trattamento dei dati personali per la gestione della richiesta di contatto. (* <a href="privacy_policy.html" target="_blank" style="color: var(--ink); text-decoration: underline; font-weight: 500;">Leggi la Privacy Policy</a>)
+              </label>
+            </div>
+
+            <div class="form-grid full" style="margin: 0;">
+              <button type="submit" class="btn-submit" id="bookingSubmitBtn">
+                <span class="spinner"></span>
+                <span class="btn-label">Invia richiesta di valutazione</span>
+              </button>
+            </div>
+
+          </div>
+        </form>
+
+        <!-- Feedback visivo invio -->
+        <div id="formConfirm" class="form-confirm" role="status" aria-live="polite">
+          <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M8 12.5l2.5 2.5L16 9"></path>
+          </svg>
+          <span>Richiesta inviata con successo. La ringraziamo, verrà ricontattato al più presto.</span>
+        </div>
+
+        <div id="formError" class="form-error" role="status" aria-live="polite">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 8v5"></path>
+            <path d="M12 16h.01"></path>
+          </svg>
+          <span id="formErrorText">Si è verificato un problema nell'invio. Riprova più tardi.</span>
+        </div>
+      </div>
+
+      <!-- ---------- COOKIE BANNER ---------- -->
+      <div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #111111; color: #ffffff; padding: 16px 24px; z-index: 9999; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5;">
+        <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 280px;">
+            Questo sito utilizza esclusivamente cookie tecnici necessari al corretto funzionamento della navigazione. Per maggiori informazioni, puoi consultare la nostra <a href="cookie_policy.html" style="color: #ffffff; text-decoration: underline;">Cookie Policy</a>.
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <button id="acceptCookies" style="background: #ffffff; color: #111111; border: none; padding: 10px 20px; font-weight: 500; border-radius: 6px; cursor: pointer; font-size: 14px; transition: opacity 0.2s;">
+              Accetta
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
   </main>
 
   <footer>
-    <div class="wrap">
-      &copy; 2026 Claudio Belardo. Tutti i diritti riservati.
+    <div class="wrap footer-inner" style="display: flex; flex-direction: column; gap: 24px; padding: 40px 24px; text-align: center; align-items: center;">
+
+      <!-- Riga superiore: Brand e link di navigazione (centrati) -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; border-bottom: 1px solid var(--border, #e2e2e2); padding-bottom: 24px; width: 100%;">
+        <div class="brand" data-route="home" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+          <img src="logon.png" alt="Logo" style="height: 24px; width: auto;">
+          <div class="brand-text"><div class="name" style="font-size:14px; font-weight: 560;">Claudio Belardo</div></div>
+        </div>
+
+        <div class="footer-links" style="display: flex; justify-content: center; gap: 20px; font-size: 14px; flex-wrap: wrap;">
+          <a href="index.html#servizi" style="cursor: pointer;">Servizi</a>
+          <a href="index.html#biografia" style="cursor: pointer;">Biografia</a>
+          <a href="index.html#blog" style="cursor: pointer;">Blog</a>
+          <a href="prenotazioni.html">Prenota</a>
+          <a href="privacy_policy.html">Privacy Policy</a>
+          <a href="cookie_policy.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <!-- Riga inferiore: Dati professionali, fiscali e contatti (centrati) -->
+      <div style="font-size: 13px; color: var(--ink-soft, #555555); line-height: 1.8; display: flex; flex-direction: column; gap: 4px; align-items: center;">
+        <div><strong>Dott. Claudio Belardo</strong> — Psicologo | P.IVA: IT04701580617</div>
+        <div>Iscritto all'Albo degli Psicologi della Regione Campania (Sezione A, n. 10728)</div>
+        <div>Studio professionale: Via Marchesiello, 81031 Caserta (CE)</div>
+        <div>Contatti: E-mail: claudiobelardo@gmail.com</div>
+        <div style="margin-top: 8px; color: var(--ink-faint, #888888);">&copy; 2026 Claudio Belardo. Tutti i diritti riservati.</div>
+      </div>
+
     </div>
   </footer>
 
- <script>
+  <script>
     // Gestione menu burger mobile
     const burger = document.getElementById('burger');
     const navLinks = document.getElementById('navLinks');
-    
     burger.addEventListener('click', () => {
       burger.classList.toggle('open');
       navLinks.classList.toggle('open');
     });
 
-    // Invio reale a Formspree con feedback visivo
+    // Ombra della navbar allo scroll
+    const siteNav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => {
+      siteNav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // Micro-interazione sulle etichette dei campi
+    document.querySelectorAll('.field input, .field textarea').forEach(el => {
+      const field = el.closest('.field');
+      el.addEventListener('focus', () => field.classList.add('focused'));
+      el.addEventListener('blur', () => field.classList.remove('focused'));
+    });
+
+    // Invio reale a Formspree con feedback visivo animato
     const form = document.getElementById('bookingForm');
+    const submitBtn = document.getElementById('bookingSubmitBtn');
     const confirmBox = document.getElementById('formConfirm');
-    
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault(); // Blocca il ricaricamento della pagina
-      
+    const errorBox = document.getElementById('formError');
+    const errorText = document.getElementById('formErrorText');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      confirmBox.classList.remove('show');
+      errorBox.classList.remove('show');
+
+      // anti-spam: se il campo honeypot è compilato, ignora l'invio
+      if (form.querySelector('[name="_honey"]').value) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
       const formData = new FormData(form);
-      
+
       try {
         const response = await fetch(form.action, {
           method: 'POST',
           body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
+          headers: { 'Accept': 'application/json' }
         });
 
         if (response.ok) {
-          confirmBox.classList.add('show'); // Mostra il messaggio verde
-          form.reset(); // Pulisce i campi
-          
-          setTimeout(() => {
-            confirmBox.classList.remove('show');
-          }, 8000);
+          confirmBox.classList.add('show');
+          form.reset();
+          confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          setTimeout(() => confirmBox.classList.remove('show'), 8000);
         } else {
-          alert('Si è verificato un problema nell\'invio. Riprova più tardi.');
+          errorText.textContent = "Si è verificato un problema nell'invio. Riprova più tardi.";
+          errorBox.classList.add('show');
         }
       } catch (error) {
-        alert('Errore di connessione. Controlla la tua rete.');
+        errorText.textContent = 'Errore di connessione. Controlla la tua rete e riprova.';
+        errorBox.classList.add('show');
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
       }
+    });
+
+    // Funzioni di utilità per i Cookie veri (durata 1 anno)
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    }
+
+    function getCookie(name) {
+      let nameEQ = name + "=";
+      let ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    // Gestione comparsa banner basata sui cookie veri, con entrata animata dal basso
+    document.addEventListener("DOMContentLoaded", function () {
+      const cookieBanner = document.getElementById('cookieBanner');
+      const acceptBtn = document.getElementById('acceptCookies');
+
+      if (!getCookie('cookieConsent_belardo')) {
+        cookieBanner.style.display = 'block';
+        requestAnimationFrame(() => {
+          setTimeout(() => cookieBanner.classList.add('visible'), 400);
+        });
+      }
+
+      acceptBtn.addEventListener('click', function () {
+        setCookie('cookieConsent_belardo', 'true', 365);
+        cookieBanner.classList.remove('visible');
+        setTimeout(() => { cookieBanner.style.display = 'none'; }, 500);
+      });
     });
   </script>
 

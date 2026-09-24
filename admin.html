@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Dott. Claudio Belardo — Psicologo</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,6 +63,7 @@
   .media-preview{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;}
   .media-item{position:relative; width:90px; height:90px; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#000;}
   .media-item img, .media-item video{width:100%; height:100%; object-fit:cover; display:block;}
+  .media-item .badge{position:absolute; bottom:4px; left:4px; background:rgba(0,0,0,.72); color:#fff; font-size:10px; padding:2px 6px; border-radius:5px;}
   .media-item .rm{
     position:absolute; top:4px; right:4px; width:22px; height:22px; border-radius:50%;
     background:rgba(0,0,0,.65); color:#fff; border:none; font-size:13px; line-height:1; cursor:pointer;
@@ -141,9 +143,9 @@
         <div class="hint">Ogni riga separata da un a capo diventa un nuovo paragrafo sul sito.</div>
       </div>
       <div class="field">
-        <label for="p-media-url">Link foto o video (facoltativo)</label>
-        <input id="p-media-url" type="url" placeholder="Incolla qui il link diretto di una foto o video">
-        <div class="hint">Carica prima il file su un servizio gratuito come <a href="https://imgur.com" target="_blank" rel="noopener">imgur.com</a> o <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>, poi incolla qui il link diretto e premi "Aggiungi". Puoi aggiungerne più di uno. Verranno mostrati in cima all'articolo sul sito.</div>
+        <label for="p-media-url">Foto o video (facoltativo)</label>
+        <input id="p-media-url" type="url" placeholder="Incolla qui il link">
+        <div class="hint">Per le foto: caricale su <a href="https://imgur.com" target="_blank" rel="noopener">imgur.com</a> o <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a> e incolla il link diretto. Per i video: caricali su YouTube come "Non in elenco" (gratis, senza limiti) e incolla il link del video — verrà mostrato con il lettore YouTube. Premi "Aggiungi" dopo ogni link, puoi aggiungerne più di uno.</div>
         <button class="btn btn-ghost" type="button" id="addMediaBtn" style="margin-top:10px;">Aggiungi link</button>
         <div id="mediaPreviewWrap" class="media-preview"></div>
       </div>
@@ -172,6 +174,38 @@
     </div>
   </div>
 </div>
+
+  <footer>
+    <div class="wrap footer-inner" style="display: flex; flex-direction: column; gap: 24px; padding: 40px 24px; text-align: center; align-items: center;">
+
+      <!-- Riga superiore: Brand e link di navigazione (centrati) -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; border-bottom: 1px solid var(--border, #e2e2e2); padding-bottom: 24px; width: 100%;">
+        <div class="brand" data-route="home" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+          <img src="logon.png" alt="Logo" style="height: 24px; width: auto;">
+          <div class="brand-text"><div class="name" style="font-size:14px; font-weight: 560;">Claudio Belardo</div></div>
+        </div>
+
+        <div class="footer-links" style="display: flex; justify-content: center; gap: 20px; font-size: 14px; flex-wrap: wrap;">
+          <a href="index.html#servizi" style="cursor: pointer;">Servizi</a>
+          <a href="index.html#biografia" style="cursor: pointer;">Biografia</a>
+          <a href="index.html#blog" style="cursor: pointer;">Blog</a>
+          <a href="prenotazioni.html">Prenota</a>
+          <a href="privacy_policy.html">Privacy Policy</a>
+          <a href="cookie_policy.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <!-- Riga inferiore: Dati professionali, fiscali e contatti (centrati) -->
+      <div style="font-size: 13px; color: var(--ink-soft, #555555); line-height: 1.8; display: flex; flex-direction: column; gap: 4px; align-items: center;">
+        <div><strong>Dott. Claudio Belardo</strong> — Psicologo | P.IVA: IT04701580617</div>
+        <div>Iscritto all'Albo degli Psicologi della Regione Campania (Sezione A, n. 10728)</div>
+        <div>Studio professionale: Via Marchesiello, 81031 Caserta (CE)</div>
+        <div>Contatti: E-mail: claudiobelardo@gmail.com</div>
+        <div style="margin-top: 8px; color: var(--ink-faint, #888888);">&copy; 2026 Claudio Belardo. Tutti i diritti riservati.</div>
+      </div>
+
+    </div>
+  </footer>
 
 <script src="site-config.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -250,14 +284,25 @@
     cancelEditBtn.style.display = 'none';
   }
 
+  function extractYouTubeId(url){
+    const m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+
   function renderMediaPreview(){
     mediaPreviewWrap.innerHTML = '';
     currentMedia.forEach((m, idx)=>{
       const item = document.createElement('div');
       item.className = 'media-item';
-      item.innerHTML = m.type === 'video'
-        ? '<video src="'+m.url+'" muted></video>'
-        : '<img src="'+m.url+'" alt="">';
+      if(m.type === 'youtube'){
+        const yid = extractYouTubeId(m.url);
+        item.innerHTML = '<img src="https://img.youtube.com/vi/'+yid+'/hqdefault.jpg" alt="">'+
+          '<span class="badge">YouTube</span>';
+      } else if(m.type === 'video'){
+        item.innerHTML = '<video src="'+m.url+'" muted></video>';
+      } else {
+        item.innerHTML = '<img src="'+m.url+'" alt="">';
+      }
       const rm = document.createElement('button');
       rm.className = 'rm';
       rm.type = 'button';
@@ -273,6 +318,7 @@
   }
 
   function guessMediaType(url){
+    if(extractYouTubeId(url)) return 'youtube';
     const clean = url.split('?')[0].toLowerCase();
     return /\.(mp4|webm|ogg|mov)$/.test(clean) ? 'video' : 'image';
   }
