@@ -1,0 +1,9 @@
+# Sostituisci "https://www.tuodominio.it" qui sotto e nel file sitemap.xml
+# con l'indirizzo reale del sito una volta pubblicato online.
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /404.html
+
+Sitemap: https://www.lianlux.it/sitemap.xml
