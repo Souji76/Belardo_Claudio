@@ -17,7 +17,7 @@ window.SITE_CONFIG = {
   // con quelli reali: finché iniziano con "INSERISCI", il sito userà
   // gli articoli di esempio e il pannello admin resterà bloccato.
   firebase: {
-    apiKey: "AIzaSyBD2PY3CsImmcVBBfKFlXW-pDoilAlzZmE",
+  apiKey: "AIzaSyBD2PY3CsImmcVBBfKFlXW-pDoilAlzZmE",
   authDomain: "sito-belardo.firebaseapp.com",
   projectId: "sito-belardo",
   storageBucket: "sito-belardo.firebasestorage.app",

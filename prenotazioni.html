@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prenotazioni - Claudio Belardo</title>
+  
+  <!-- Google Fonts: Fraunces per i titoli, Inter per il corpo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #fafafa;
+      --ink: #111111;
+      --ink-soft: #555555;
+      --ink-faint: #888888;
+      --border: #e2e2e2;
+      --font-display: 'Fraunces', serif;
+      --font-body: 'Inter', sans-serif;
+      --ease: cubic-bezier(.22,1,.36,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 500; margin: 0; letter-spacing: -0.01em; }
+    p { margin: 0; }
+
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---------- NAVBAR PRINCIPALE NERA ---------- */
+    header.nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(17, 17, 17, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px; max-width: 1180px; margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .brand img { height: 30px; width: auto; filter: brightness(0) invert(1); }
+    .brand-text { line-height: 1.15; }
+    .brand-text .name { font-family: var(--font-display); font-size: 16px; font-weight: 560; color: #ffffff; }
+    .brand-text .role { font-size: 11px; color: rgba(255, 255, 255, 0.7); letter-spacing: .03em; }
+
+    nav.links { display: flex; align-items: center; gap: 2px; position: relative; }
+    nav.links a {
+      position: relative; padding: 9px 16px; font-size: 14.5px; color: rgba(255, 255, 255, 0.8);
+      border-radius: 100px; transition: color .3s var(--ease), background .3s;
+      white-space: nowrap;
+    }
+    nav.links a:hover { color: #ffffff; background: rgba(255, 255, 255, 0.12); }
+
+    .burger { display: none; width: 34px; height: 34px; position: relative; cursor: pointer; background: none; border: none; }
+    .burger span { position: absolute; left: 6px; right: 6px; height: 2px; background: #ffffff; border-radius: 2px; transition: transform .3s var(--ease), opacity .3s; }
+    .burger span:nth-child(1) { top: 12px; }
+    .burger span:nth-child(2) { top: 20px; }
+    .burger.open span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
+    .burger.open span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
+
+    @media (max-width: 860px) {
+      nav.links {
+        position: fixed; top: 66px; left: 16px; right: 16px;
+        background: #111111; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
+        flex-direction: column; align-items: stretch; padding: 10px;
+        box-shadow: 0 30px 60px -30px rgba(0,0,0,0.5);
+        transform-origin: top center;
+        transform: scaleY(0.85) translateY(-8px); opacity: 0; pointer-events: none;
+        transition: transform .35s var(--ease), opacity .3s var(--ease);
+      }
+      nav.links.open { transform: scaleY(1) translateY(0); opacity: 1; pointer-events: auto; }
+      nav.links a { padding: 13px 16px; border-radius: 12px; color: rgba(255,255,255,0.85); }
+      nav.links a:hover { background: rgba(255,255,255,0.12); color: #ffffff; }
+      .burger { display: block; }
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    main {
+      padding-top: 150px;
+      padding-bottom: 100px;
+    }
+
+    .booking-header {
+      margin-bottom: 44px;
+      text-align: center;
+    }
+    .booking-header .kicker {
+      font-size: 13px; color: var(--ink-faint); font-weight: 500; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .booking-header h1 {
+      font-size: clamp(32px, 4.5vw, 48px);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    /* Box Informativo / Nota Istituzionale */
+    .notice-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 50px;
+    }
+    .notice-box p {
+      color: var(--ink-soft);
+      font-size: 15.5px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .notice-box p:last-child {
+      margin-bottom: 0;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ---------- FORM SEZIONE ---------- */
+    .form-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px;
+      box-shadow: 0 20px 40px -20px rgba(0,0,0,0.05);
+    }
+    .form-card h2 {
+      font-size: 24px;
+      margin-bottom: 28px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-grid .full {
+      grid-column: span 2;
+    }
+    @media (max-width: 700px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .full { grid-column: span 1; }
+      .form-card { padding: 24px; }
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 13px; font-weight: 500; color: var(--ink-soft); margin-bottom: 8px; }
+    .field input, .field textarea {
+      width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px;
+      background: var(--surface); color: var(--ink); font-family: var(--font-body); font-size: 15px;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .field input:focus, .field textarea:focus {
+      outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+    .field textarea { resize: vertical; min-height: 140px; }
+
+    .btn-submit {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 16px 28px; border-radius: 100px; background: var(--ink); color: #ffffff;
+      font-size: 15px; font-weight: 500; cursor: pointer; border: none; transition: background .3s, transform .2s;
+      margin-top: 10px;
+    }
+    .btn-submit:hover { background: #333333; transform: translateY(-1px); }
+
+    /* Messaggi di stato */
+    .form-confirm {
+      margin-top: 20px; padding: 16px 20px; border-radius: 12px; background: #f0fdf4;
+      border: 1px solid #bbf7d0; color: #166534; font-size: 14px; display: none; align-items: center; gap: 10px;
+    }
+    .form-confirm.show { display: flex; }
+    
+    .form-error {
+      margin-top: 20px; padding: 16px 20px; border-radius: 12px; background: #fef2f2;
+      border: 1px solid #fecaca; color: #991b1b; font-size: 14px; display: none; align-items: center; gap: 10px;
+    }
+    .form-error.show { display: flex; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-faint);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navbar -->
+  <header class="nav" id="siteNav">
+    <div class="nav-inner">
+      <a href="index.html" class="brand">
+        <img src="logon.png" alt="Logo">
+        <div class="brand-text">
+          <div class="name">Claudio Belardo</div>
+          <div class="role">Psicologo</div>
+        </div>
+      </a>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+      <nav class="links" id="navLinks">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#servizi">Servizi</a>
+        <a href="index.html#biografia">Biografia</a>
+        <a href="index.html#blog">Blog</a>
+        <a href="index.html#contatto">Contatto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    
+    <!-- Intestazione della pagina -->
+    <div class="booking-header">
+      <div class="kicker">Accesso ai percorsi</div>
+      <br>Sezione Prenotazioni<br></h1>
+    </div>
+
+    <!-- Testo descrittivo -->
+    <div class="notice-box">
+      <p>Benvenuti nella sezione prenotazioni del Dott. Belardo. A seguito dei correnti impegni istituzionali e delle attività cliniche e di consulenza sul territorio nazionale, la disponibilità per l’accettazione di nuovi pazienti è limitata.</p>
+      <p>Ogni richiesta ricevuta verrà valutata con la massima attenzione per verificare la sostenibilità temporale del percorso, garantendo così gli standard di cura e l’adeguato tempo terapeutico richiesti dal codice deontologico.</p>
+      <p>Una volta inviato il modulo, verrete ricontattati per ricevere un riscontro sulla fattibilità della presa in carico o sull’eventuale inserimento in lista d’attesa.</p>
+    </div>
+
+    <!-- Modulo di contatto -->
+    <div class="form-card">
+      <h2>Invia una richiesta</h2>
+      <form id="bookingForm" action="https://formspree.io/f/xqpalbzj" method="POST">
+        <div class="form-grid">
+          
+          <div class="field">
+            <label for="name">Nome e Cognome</label>
+            <input type="text" id="name" name="Nome" required placeholder="Mario Rossi">
+          </div>
+
+          <div class="field">
+            <label for="email">Indirizzo Email</label>
+            <input type="email" id="email" name="Email" required placeholder="mario.rossi@example.it">
+          </div>
+
+          <div class="field full">
+            <label for="phone">Recapito Telefonico</label>
+            <input type="tel" id="phone" name="Telefono" placeholder="+39 333 1234567">
+          </div>
+
+          <div class="field full">
+            <label for="message">Descrizione della richiesta</label>
+            <textarea id="message" name="Messaggio" required placeholder="Invia una breve descrizione della tua richiesta..."></textarea>
+          </div>
+
+          <div class="form-grid full" style="margin: 0;">
+            <button type="submit" class="btn-submit">Invia richiesta di valutazione</button>
+          </div>
+
+        </div>
+      </form>
+
+      <!-- Feedback visivo invio -->
+      <div id="formConfirm" class="form-confirm">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+        <span>Richiesta inviata con successo. La ringraziamo, verrà ricontattato al più presto.</span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      &copy; 2026 Claudio Belardo. Tutti i diritti riservati.
+    </div>
+  </footer>
+
+ <script>
+    // Gestione menu burger mobile
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+
+    // Invio reale a Formspree con feedback visivo
+    const form = document.getElementById('bookingForm');
+    const confirmBox = document.getElementById('formConfirm');
+    
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Blocca il ricaricamento della pagina
+      
+      const formData = new FormData(form);
+      
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          confirmBox.classList.add('show'); // Mostra il messaggio verde
+          form.reset(); // Pulisce i campi
+          
+          setTimeout(() => {
+            confirmBox.classList.remove('show');
+          }, 8000);
+        } else {
+          alert('Si è verificato un problema nell\'invio. Riprova più tardi.');
+        }
+      } catch (error) {
+        alert('Errore di connessione. Controlla la tua rete.');
+      }
+    });
+  </script>
+
+</body>
+</html>

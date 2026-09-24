@@ -59,6 +59,15 @@
   .logout{font-size:13px; color:var(--ink-faint); cursor:pointer; text-decoration:underline;}
   code{background:var(--accent-tint); padding:1px 6px; border-radius:5px; font-size:.92em;}
   #appScreen{display:none;}
+  .media-preview{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;}
+  .media-item{position:relative; width:90px; height:90px; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#000;}
+  .media-item img, .media-item video{width:100%; height:100%; object-fit:cover; display:block;}
+  .media-item .rm{
+    position:absolute; top:4px; right:4px; width:22px; height:22px; border-radius:50%;
+    background:rgba(0,0,0,.65); color:#fff; border:none; font-size:13px; line-height:1; cursor:pointer;
+  }
+  .media-item .rm:hover{background:#C4664F;}
+  .upload-status{font-size:12.5px; color:var(--ink-faint); margin-top:8px;}
 </style>
 </head>
 <body>
@@ -131,11 +140,30 @@
         <textarea id="p-content" placeholder="Scrivi qui l'articolo. Vai a capo per separare i paragrafi."></textarea>
         <div class="hint">Ogni riga separata da un a capo diventa un nuovo paragrafo sul sito.</div>
       </div>
+      <div class="field">
+        <label for="p-media-url">Link foto o video (facoltativo)</label>
+        <input id="p-media-url" type="url" placeholder="Incolla qui il link diretto di una foto o video">
+        <div class="hint">Carica prima il file su un servizio gratuito come <a href="https://imgur.com" target="_blank" rel="noopener">imgur.com</a> o <a href="https://postimages.org" target="_blank" rel="noopener">postimages.org</a>, poi incolla qui il link diretto e premi "Aggiungi". Puoi aggiungerne più di uno. Verranno mostrati in cima all'articolo sul sito.</div>
+        <button class="btn btn-ghost" type="button" id="addMediaBtn" style="margin-top:10px;">Aggiungi link</button>
+        <div id="mediaPreviewWrap" class="media-preview"></div>
+      </div>
       <div class="row">
         <button class="btn" id="postSubmitBtn">Pubblica articolo</button>
         <button class="btn btn-ghost" id="cancelEditBtn" style="display:none;">Annulla modifica</button>
       </div>
       <div class="msg" id="postMsg"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:18px; margin:0 0 16px;">Descrizione del blog</h2>
+      <p class="hint" style="margin-bottom:14px;">Questo testo compare in cima alla pagina Blog del sito, sotto il titolo "Appunti di psicologia". Se lo lasci vuoto, il sito mostrerà automaticamente un testo predefinito.</p>
+      <div class="field">
+        <label for="blog-intro">Testo introduttivo (facoltativo)</label>
+        <textarea id="blog-intro" style="min-height:110px;" placeholder="Lascia vuoto per usare il testo predefinito"></textarea>
+        <div class="hint">Vai a capo per separare i paragrafi.</div>
+      </div>
+      <button class="btn" id="introSaveBtn">Salva descrizione</button>
+      <div class="msg" id="introMsg"></div>
     </div>
 
     <div class="card">
@@ -166,12 +194,14 @@
   const db = firebase.firestore();
 
   let editingId = null;
+  let currentMedia = [];   // media (link) associati all'articolo in modifica
 
   auth.onAuthStateChanged(user=>{
     if(user){
       loginScreen.style.display = 'none';
       appScreen.style.display = 'block';
       loadPostsList();
+      loadBlogIntro();
     }else{
       loginScreen.style.display = 'block';
       appScreen.style.display = 'none';
@@ -197,6 +227,9 @@
   const categoryEl = document.getElementById('p-category');
   const excerptEl = document.getElementById('p-excerpt');
   const contentEl = document.getElementById('p-content');
+  const mediaUrlEl = document.getElementById('p-media-url');
+  const addMediaBtn = document.getElementById('addMediaBtn');
+  const mediaPreviewWrap = document.getElementById('mediaPreviewWrap');
   const postMsg = document.getElementById('postMsg');
   const formTitle = document.getElementById('formTitle');
   const postSubmitBtn = document.getElementById('postSubmitBtn');
@@ -209,10 +242,48 @@
     categoryEl.value = '';
     excerptEl.value = '';
     contentEl.value = '';
+    mediaUrlEl.value = '';
+    currentMedia = [];
+    renderMediaPreview();
     formTitle.textContent = 'Nuovo articolo';
     postSubmitBtn.textContent = 'Pubblica articolo';
     cancelEditBtn.style.display = 'none';
   }
+
+  function renderMediaPreview(){
+    mediaPreviewWrap.innerHTML = '';
+    currentMedia.forEach((m, idx)=>{
+      const item = document.createElement('div');
+      item.className = 'media-item';
+      item.innerHTML = m.type === 'video'
+        ? '<video src="'+m.url+'" muted></video>'
+        : '<img src="'+m.url+'" alt="">';
+      const rm = document.createElement('button');
+      rm.className = 'rm';
+      rm.type = 'button';
+      rm.textContent = '✕';
+      rm.title = 'Rimuovi';
+      rm.addEventListener('click', ()=>{
+        currentMedia.splice(idx, 1);
+        renderMediaPreview();
+      });
+      item.appendChild(rm);
+      mediaPreviewWrap.appendChild(item);
+    });
+  }
+
+  function guessMediaType(url){
+    const clean = url.split('?')[0].toLowerCase();
+    return /\.(mp4|webm|ogg|mov)$/.test(clean) ? 'video' : 'image';
+  }
+
+  addMediaBtn.addEventListener('click', ()=>{
+    const url = mediaUrlEl.value.trim();
+    if(!url) return;
+    currentMedia.push({ url, type: guessMediaType(url) });
+    mediaUrlEl.value = '';
+    renderMediaPreview();
+  });
 
   function formatDateIt(isoDate){
     if(!isoDate) return '';
@@ -220,7 +291,7 @@
     return d.toLocaleDateString('it-IT', {day:'numeric', month:'long', year:'numeric'});
   }
 
-  postSubmitBtn.addEventListener('click', ()=>{
+  postSubmitBtn.addEventListener('click', async ()=>{
     postMsg.classList.remove('show','ok','err');
     if(!titleEl.value.trim() || !contentEl.value.trim()){
       postMsg.textContent = 'Titolo e testo completo sono obbligatori.';
@@ -228,32 +299,35 @@
       return;
     }
     const metaParts = [formatDateIt(dateEl.value), categoryEl.value.trim()].filter(Boolean);
-    const data = {
-      title: titleEl.value.trim(),
-      meta: metaParts.join(' · '),
-      excerpt: excerptEl.value.trim(),
-      content: contentEl.value.split('\n').map(s=>s.trim()).filter(Boolean),
-      createdAt: editingId ? undefined : firebase.firestore.FieldValue.serverTimestamp(),
-      dateSort: dateEl.value || null
-    };
-    Object.keys(data).forEach(k => data[k] === undefined && delete data[k]);
+    const docId = editingId || db.collection('posts').doc().id;
 
     postSubmitBtn.disabled = true;
-    const op = editingId
-      ? db.collection('posts').doc(editingId).update(data)
-      : db.collection('posts').add(Object.assign(data, {createdAt: firebase.firestore.FieldValue.serverTimestamp()}));
+    const originalLabel = postSubmitBtn.textContent;
 
-    op.then(()=>{
+    try{
+      const data = {
+        title: titleEl.value.trim(),
+        meta: metaParts.join(' · '),
+        excerpt: excerptEl.value.trim(),
+        content: contentEl.value.split('\n').map(s=>s.trim()).filter(Boolean),
+        media: currentMedia,
+        dateSort: dateEl.value || null
+      };
+      if(!editingId) data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+      await db.collection('posts').doc(docId).set(data, {merge:true});
+
       postMsg.textContent = editingId ? 'Articolo aggiornato.' : 'Articolo pubblicato.';
       postMsg.classList.add('show','ok');
       resetForm();
       loadPostsList();
-    }).catch(()=>{
+    }catch(e){
       postMsg.textContent = 'Errore durante il salvataggio. Riprova.';
       postMsg.classList.add('show','err');
-    }).finally(()=>{
+    }finally{
       postSubmitBtn.disabled = false;
-    });
+      postSubmitBtn.textContent = originalLabel;
+    }
   });
 
   cancelEditBtn.addEventListener('click', resetForm);
@@ -269,11 +343,13 @@
         wrap.innerHTML = '';
         snap.forEach(doc=>{
           const p = doc.data();
+          const mediaCount = Array.isArray(p.media) ? p.media.length : 0;
+          const mediaBadge = mediaCount ? ' · ' + mediaCount + (mediaCount === 1 ? ' allegato' : ' allegati') : '';
           const row = document.createElement('div');
           row.className = 'post-row';
           row.innerHTML =
             '<div>' +
-              '<div class="meta">'+ escapeHtml(p.meta || '') +'</div>' +
+              '<div class="meta">'+ escapeHtml(p.meta || '') + escapeHtml(mediaBadge) +'</div>' +
               '<div class="title">'+ escapeHtml(p.title || '') +'</div>' +
             '</div>' +
             '<div class="actions">' +
@@ -297,6 +373,9 @@
     categoryEl.value = (p.meta || '').split('·').slice(1).join('·').trim();
     excerptEl.value = p.excerpt || '';
     contentEl.value = Array.isArray(p.content) ? p.content.join('\n') : (p.content || '');
+    mediaUrlEl.value = '';
+    currentMedia = Array.isArray(p.media) ? p.media.slice() : [];
+    renderMediaPreview();
     formTitle.textContent = 'Modifica articolo';
     postSubmitBtn.textContent = 'Salva modifiche';
     cancelEditBtn.style.display = 'inline-flex';
@@ -307,6 +386,32 @@
     if(!confirm('Eliminare questo articolo? L\'azione non è reversibile.')) return;
     db.collection('posts').doc(id).delete().then(loadPostsList);
   }
+
+  // ---------- Descrizione del blog ----------
+  const introEl = document.getElementById('blog-intro');
+  const introSaveBtn = document.getElementById('introSaveBtn');
+  const introMsg = document.getElementById('introMsg');
+
+  function loadBlogIntro(){
+    db.collection('settings').doc('blog').get()
+      .then(doc=>{ introEl.value = doc.exists ? (doc.data().intro || '') : ''; })
+      .catch(()=>{});
+  }
+
+  introSaveBtn.addEventListener('click', ()=>{
+    introMsg.classList.remove('show','ok','err');
+    introSaveBtn.disabled = true;
+    db.collection('settings').doc('blog').set({intro: introEl.value.trim()}, {merge:true})
+      .then(()=>{
+        introMsg.textContent = 'Descrizione salvata.';
+        introMsg.classList.add('show','ok');
+      })
+      .catch(()=>{
+        introMsg.textContent = 'Errore durante il salvataggio. Riprova.';
+        introMsg.classList.add('show','err');
+      })
+      .finally(()=>{ introSaveBtn.disabled = false; });
+  });
 
   function escapeHtml(str){
     return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

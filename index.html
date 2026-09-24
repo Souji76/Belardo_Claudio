@@ -339,6 +339,14 @@
   .page-header .kicker{margin-bottom:20px;}
   .page-header h1{font-size:clamp(32px,5vw,54px); max-width:14ch;}
   .page-header p.lead{margin-top:20px; font-size:17px; color:var(--ink-soft); max-width:56ch;}
+  .page-header .lead p{margin-top:20px; font-size:17px; color:var(--ink-soft); max-width:56ch;}
+  .page-header .lead p:first-child{margin-top:20px;}
+  .page-header p.blog-disclaimer{margin-top:18px; font-size:13.5px; color:var(--ink-faint); max-width:56ch; line-height:1.5;}
+  .post-media{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 18px;}
+  .post-media img, .post-media video{max-width:100%; border-radius:12px; display:block;}
+  .post-media img{max-height:420px; object-fit:cover;}
+  .post-media video{max-height:420px; background:#000;}
+  @media (max-width:600px){ .post-media img, .post-media video{max-height:280px;} }
 
   .service-list{border-top:1px solid var(--border);}
   .service-row{
@@ -503,7 +511,7 @@
       <a href="#biografia" data-route="biografia">Biografia</a>
       <a href="#blog" data-route="blog">Blog</a>
       <a href="#contatto" data-route="contatto">Contatto</a>
-      <a href="#contatto" class="nav-cta" data-route="contatto">Prenota un colloquio</a>
+      <a href="#contatto" class="nav-cta" data-route="contatto">Prenota un consulenza</a>
     </nav>
   </div>
   <div class="nav-progress" id="navProgress"></div>
@@ -529,7 +537,7 @@
           </h1>
           <p class="hero-sub">Percorsi di sostegno psicologico costruiti sulla persona che ho davanti — non su un modello fisso. In studio o online, con la riservatezza e il tempo che ogni percorso merita.</p>
           <div class="hero-actions">
-            <button class="btn btn-primary magnetic" data-route="contatto">Prenota un primo colloquio
+            <button class="btn btn-primary magnetic" data-route="contatto">Prenota un primo consulenza
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
             <button class="btn btn-ghost magnetic" data-route="servizi">Scopri i servizi</button>
@@ -552,38 +560,8 @@
   </svg>
 </div>
 
-    <section class="block">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div class="kicker"><span class="dot"></span>Come lavoro</div>
-          <h2>Un metodo chiaro, un ritmo umano.</h2>
-        </div>
-        <div class="approach-grid">
-          <div class="approach-item reveal">
-            <span class="num">01</span>
-            <h3>Ascolto autentico</h3>
-            <p>Ogni percorso nasce da una relazione di fiducia costruita nel tempo, senza fretta e senza schemi imposti dall'esterno.</p>
-          </div>
-          <div class="approach-item reveal">
-            <span class="num">02</span>
-            <h3>Strumenti solidi</h3>
-            <p>Un metodo clinico chiaro, adattato alla persona che ho davanti — non il contrario.</p>
-          </div>
-          <div class="approach-item reveal">
-            <span class="num">03</span>
-            <h3>Percorsi su misura</h3>
-            <p>Colloqui individuali, di coppia o di orientamento, in studio o in videochiamata, secondo ciò che serve davvero.</p>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="quote-block tint">
-      <div class="wrap">
-        <blockquote class="reveal">"Non tutto ciò che si affronta può essere cambiato subito. Ma nulla cambia davvero finché non lo si guarda con chiarezza."</blockquote>
-        <div class="attrib reveal">— una riflessione che guida il mio modo di lavorare</div>
-      </div>
-    </section>
+
 
     <section class="block">
       <div class="wrap">
@@ -591,8 +569,12 @@
           <img src="claudio2.jpg" alt="Dott. Claudio Belardo">
           <div>
             <div class="kicker"><span class="dot"></span>Chi sono</div>
-            <h2 style="font-size:26px; margin-bottom:14px;">Claudio Belardo, psicologo</h2>
-            <p style="color:var(--ink-soft); font-size:16px; max-width:56ch;">Il mio lavoro parte da un'idea semplice: ogni persona porta con sé risorse spesso nascoste, che il percorso terapeutico aiuta a riconoscere e a usare.</p>
+            <h2 style="font-size:26px; margin-bottom:14px;">Sono il Dott. Claudio Belardo, 
+Psicologo iscritto all'Albo degli Psicologi della Regione Campania (Sezione A, n. 10728)</h2>
+            <p style="color:var(--ink-soft); font-size:16px; max-width:56ch;">Il mio obiettivo professionale è offrire uno spazio di ascolto protetto, confidenziale e privo di giudizio, dove poter accogliere il disagio e trasformarlo in una risorsa. Nella mia pratica clinica mi avvalgo degli strumenti della diagnosi, del sostegno psicologico e della riabilitazione (ai sensi dell'Art. 1 della Legge 56/89), strutturando percorsi personalizzati sulle reali necessità e sugli obiettivi di ogni persona.
+Il mio approccio al benessere psicologico
+Credo fermamente che ogni individuo possieda le risorse necessarie per affrontare i momenti di crisi, i disturbi clinici o le difficoltà relazionali. Il mio compito è quello di accompagnare la persona in un percorso di consapevolezza e cambiamento, focalizzandomi non solo sul sintomo, ma sul potenziamento dell'autonomia e sul miglioramento della qualità della vita quotidiana.
+Che si tratti di gestire un momento di forte ansia e stress, di affrontare dinamiche complesse legate alle relazioni o a disturbi strutturati come il DOC e i disturbi di personalità, o ancora di ottimizzare la performance mentale nella psicologia dello sport, l'intervento viene co-costruito insieme alla persona per favorire un funzionamento sociale, emotivo e lavorativo ottimale.</p>
             <a class="link-more" data-route="biografia">Leggi la biografia completa
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
@@ -615,40 +597,38 @@
   <section class="page" id="page-servizi" data-page="servizi">
     <div class="wrap page-header">
       <div class="kicker reveal"><span class="dot"></span>Servizi</div>
-      <h1 class="reveal">Percorsi pensati sulla persona, non sull'etichetta.</h1>
-      <p class="lead reveal">Ogni intervento viene calibrato sulla situazione specifica: qui sotto trovi un'idea dei percorsi che propongo più spesso.</p>
+      <h1 class="reveal">Di cosa mi occupo / Aree di intervento</h1>
+      <p class="lead reveal">Nel mio studio offro percorsi di consulenza clinica, supporto psicologico, abilitazione e riabilitazione rivolti ad adulti, adolescenti e coppie. Sulla base delle mie competenze professionali (Art. 1 L. 56/89), intervengo nelle seguenti aree:</p>
     </div>
     <div class="wrap">
       <div class="service-list">
         <div class="service-row reveal">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-          <div><h3>Psicologia Clinica</h3><p>Trattamento di ansia, stress, disturbo ossessivo-compulsivo e crescita personale, in studio a Caserta e online.</p></div>
-          <div class="tag">In studio · online</div>
+          <div><h3>Ansia e Depressione</h3><p>Valutazione clinica e percorsi di sostegno psicologico per la gestione degli stati ansiosi, dello stress correlato, dei disturbi dell'umore e delle difficoltà emotive legate a momenti di crisi o cambiamenti di vita.</p></div>
+
         </div>
         <div class="service-row reveal">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2 21c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5M10 21c0-3.6 2.7-6.5 6-6.5s6 2.9 6 6.5"/></svg>
-          <div><h3>Mental Coaching Sportivo</h3><p>Strategie avanzate per migliorare la motivazione e sbloccare il tuo vero potenziale.</p></div>
-          <div class="tag">In studio</div>
+          <div><h3>Difficoltà Relazionali e di Coppia</h3><p>Consulenza psicologica per migliorare la comunicazione, gestire i conflitti affettivi, familiari o lavorativi, e promuovere il benessere nelle relazioni interpersonali.</p></div>
+        
         </div>
         <div class="service-row reveal">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-4 4-7 7.5-7 11a7 7 0 0 0 14 0c0-3.5-3-7-7-11Z"/></svg>
-          <div><h3>Psicologia della performance dello spettacolo</h3><p>l mondo dello spettacolo e delle arti performative richiede un equilibrio psicofisico unico. Attraverso consulenze mirate e fondate su evidenze scientifiche, ottimizzo i processi cognitivi ed emotivi legati alla prestazione scenica, fornendo strumenti validati per la tutela della salute psicofisica del performer.</p></div>
-          <div class="tag">In studio · online</div>
+          <div><h3>Supporto e Riabilitazione nei Disturbi di Personalità e DOC</h3><p>Interventi mirati di inquadramento diagnostico, potenziamento delle risorse personali e percorsi di riabilitazione psicologica per migliorare la gestione quotidiana dei sintomi, l'autonomia e il funzionamento sociale di chi convive con il Disturbo Ossessivo-Compulsivo o con disturbi della personalità.</p></div>
+
         </div>
         <div class="service-row reveal">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h4l2-7 4 14 2-7h4"/></svg>
-          <div><h3>Psicologia dello sport</h3><p>L’ottimizzazione della prestazione atletica richiede un perfetto equilibrio tra mente e corpo. Attraverso protocolli basati su evidenze scientifiche, offro supporto psicologico mirato a atleti e professionisti di diverse discipline — tra cui equitazione, bodybuilding, fitness e calcio — intervenendo sulla gestione dello stress da gara, il focus cognitivo, la rapidità decisionale e il controllo dell’attivazione psicofisiologica. Ogni percorso è strutturato per integrare la salute mentale con il potenziamento fisico, ottimizzando il rendimento sia nelle discipline individuali che negli sport di squadra.</p></div>
-          <div class="tag">In studio · online</div>
+          <div><h3>Sessuologia Tipica e Clinica</h3><p>Consulenza e sostegno per il benessere della sfera sessuale, la gestione delle disfunzioni sessuali e l'accompagnamento nelle tappe dello sviluppo psicosessuale.</p></div>
+
         </div>
         <div class="service-row reveal">
           <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-          <div><h3>Ippoterapia e Attività Equestre Integrata</h3><p>Progetti inclusivi e percorsi di ippoterapia basati su un metodo olistico personalizzato, volti al benessere mentale e al successo nel paradressage agonistico.</p></div>
-          <div class="tag">Online</div>
+          <div><h3>Psicologia dello Sport e Mental Training</h3><p>Percorsi di preparazione mentale, ottimizzazione della performance agonistica, gestione dell'ansia da prestazione e sviluppo del potenziale per atleti, squadre e allenatori.</p></div>
+  
         </div>
-        <div class="service-row reveal">
-          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3.5"/></svg>
-          <div><h3>Coaching</h3><p>Per chi vuole crescere sul lavoro, nella vita privata o nello sport.</p></div>
-          <div class="tag">In studio · online</div>
+
+
         </div>
       </div>
     </div>
@@ -705,7 +685,7 @@
     <section class="cta-band">
       <div class="wrap">
         <h2 class="reveal">Vuoi conoscermi di persona?</h2>
-        <button class="btn btn-primary magnetic reveal" data-route="contatto">Prenota un primo colloquio
+        <button class="btn btn-primary magnetic reveal" data-route="contatto">Prenota un primo consulenza
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
       </div>
@@ -734,8 +714,9 @@
   <section class="page" id="page-blog" data-page="blog">
     <div class="wrap page-header">
       <div class="kicker reveal"><span class="dot"></span>Blog</div>
-      <h1 class="reveal">Appunti su ansia, relazioni e cambiamento.</h1>
-      <p class="lead reveal">Riflessioni brevi, pensate per essere utili anche fuori dalla stanza di terapia.</p>
+      <h1 class="reveal">Appunti di psicologia</h1>
+      <div id="blogIntro" class="lead reveal"><p>Uno spazio dedicato alla comprensione della mente, delle emozioni e dei comportamenti che accompagnano la nostra vita quotidiana.</p></div>
+      <p class="blog-disclaimer reveal">I contenuti del blog hanno finalità esclusivamente informative e divulgative e non sostituiscono una consulenza, una valutazione o un trattamento psicologico professionale.</p>
     </div>
     <div class="wrap">
       <div class="post-list" id="postList">
@@ -766,8 +747,9 @@
   <section class="page" id="page-contatto" data-page="contatto">
     <div class="wrap page-header">
       <div class="kicker reveal"><span class="dot"></span>Contatto</div>
-      <h1 class="reveal">Scriviamoci.</h1>
-      <p class="lead reveal">Compila il modulo oppure scrivi direttamente ai recapiti qui sotto: ti risponderò per fissare un primo colloquio conoscitivo.</p>
+      <h1 class="reveal">Area prenotazioni</h1>
+      <p class="lead reveal">Benvenuti nella sezione prenotazioni del Dott. Belardo. A seguito dei correnti impegni istituzionali e delle attività cliniche e di consulenza sul territorio nazionale, la disponibilità per l’accettazione di nuovi pazienti è limitata. Ogni richiesta ricevuta verrà valutata con la massima attenzione per verificare la sostenibilità temporale del percorso, garantendo così gli standard di cura e l’adeguato tempo terapeutico richiesti dal codice deontologico. Una volta inviato il modulo, verrete ricontattati per ricevere un riscontro sulla fattibilità della presa in carico o sull’eventuale inserimento in lista d’attesa. Invia una breve descrizione della tua richiesta
+</p>
     </div>
     <div class="wrap">
       <div class="contact-grid">
@@ -803,22 +785,13 @@
           </form>
         </div>
         <div class="reveal">
-          <div class="contact-info-item">
-            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2Z"/></svg>
-            <div><div class="lbl">Telefono</div><div class="val">[Numero di telefono]</div></div>
-          </div>
-          <div class="contact-info-item">
-            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-            <div><div class="lbl">Email</div><div class="val">claudiobelardo@gmail.com</div></div>
-          </div>
+         
+        
           <div class="contact-info-item">
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>
-            <div><div class="lbl">Studio</div><div class="val">[Indirizzo dello studio, Città]</div></div>
+            <div><div class="lbl">Studio</div><div class="val">Caserta e online</div></div>
           </div>
-          <div class="contact-info-item">
-            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-            <div><div class="lbl">Orari di ricevimento</div><div class="val">[Giorni e orari]</div></div>
-          </div>
+
 
         </div>
       </div>
@@ -858,7 +831,8 @@
       <a data-route="contatto">Contatto</a>
           <a href="admin.html">Accedi</a>
     </div>
-    <div>© 2026 Claudio Belardo — Psicologo</div>
+    <div>Psicologo iscritto all'Albo degli Psicologi della Regione Campania (Sezione A, n. 10728)
+</div>
   </div>
 </footer>
 
@@ -930,6 +904,7 @@
     if(route === 'blog' && !blogLoaded){
       blogLoaded = true;
       loadPosts();
+      loadBlogIntro();
     }
 
     if(push) history.replaceState(null,'', '#'+route);
@@ -1001,6 +976,32 @@
     });
   }
 
+  // ---------- BLOG: testo introduttivo (modificabile dal pannello admin) ----------
+  const DEFAULT_BLOG_INTRO = [
+    'Attraverso riflessioni, approfondimenti e contributi divulgativi basati sulle evidenze scientifiche, affronterò temi legati al benessere psicologico, alla crescita personale, alle relazioni, allo sport e all’inclusione.',
+    'L’obiettivo è rendere la psicologia chiara, concreta e accessibile, offrendo nuovi punti di vista e strumenti utili per acquisire maggiore consapevolezza di sé e affrontare con equilibrio le sfide di ogni giorno.',
+    'Perché comprendere ciò che accade dentro di noi è il primo passo per prenderci cura del nostro benessere.'
+  ];
+
+  function renderBlogIntro(text){
+    const wrap = document.getElementById('blogIntro');
+    const paragraphs = (text && text.trim())
+      ? text.split(/\n+/).map(s=>s.trim()).filter(Boolean)
+      : DEFAULT_BLOG_INTRO;
+    wrap.innerHTML = paragraphs.map(p => '<p>'+p+'</p>').join('');
+  }
+
+  function loadBlogIntro(){
+    renderBlogIntro(null);
+    const db = getFirestore();
+    if(!db) return;
+    db.collection('settings').doc('blog').get()
+      .then(doc=>{
+        if(doc.exists) renderBlogIntro((doc.data()||{}).intro);
+      })
+      .catch(()=>{});
+  }
+
   // ---------- BLOG: caricamento articoli da Firestore, con fallback locale ----------
   const FALLBACK_POSTS = [
     {
@@ -1044,6 +1045,12 @@
       article.className = 'post-item reveal revealed';
       const paragraphs = (Array.isArray(post.content) ? post.content : String(post.content||'').split(/\n+/))
         .filter(Boolean).map(p => '<p>'+p+'</p>').join('');
+      const media = Array.isArray(post.media) ? post.media : [];
+      const mediaHtml = media.length ? '<div class="post-media">' + media.map(m =>
+        m.type === 'video'
+          ? '<video src="'+m.url+'" controls playsinline></video>'
+          : '<img src="'+m.url+'" alt="" loading="lazy">'
+      ).join('') + '</div>' : '';
       article.innerHTML =
         '<div class="post-head">' +
           '<div>' +
@@ -1053,7 +1060,7 @@
           '<span class="plus"></span>' +
         '</div>' +
         '<p class="post-excerpt">'+ (post.excerpt || '') +'</p>' +
-        '<div class="post-full">'+ paragraphs +'</div>';
+        '<div class="post-full">'+ mediaHtml + paragraphs +'</div>';
       list.appendChild(article);
     });
     attachAccordion();
