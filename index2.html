@@ -248,32 +248,13 @@
     opacity:0; animation:photoIn 1s var(--ease) forwards; animation-delay:.25s;
   }
   @keyframes photoIn{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
-  .blob{
-    position:absolute; width:106%; height:112%; z-index:0;
-    background:linear-gradient(135deg, #f4f4f5, #e5e7eb);
-    animation: blobMorph 12s ease-in-out infinite;
-  }
-  @keyframes blobMorph{
-    0%,100%{border-radius:42% 58% 65% 35% / 45% 40% 60% 55%;}
-    33%{border-radius:65% 35% 40% 60% / 55% 65% 35% 45%;}
-    66%{border-radius:38% 62% 55% 45% / 65% 40% 60% 35%;}
-  }
   .hero-photo{
     position:relative; z-index:1; width:min(380px, 78vw);
-    border-radius:50% 50% 46% 54% / 55% 55% 45% 45%;
-    overflow:hidden; border:2px solid #111111; background:var(--surface);
+    border-radius:0;
+    overflow:hidden; background:var(--surface);
     transform-style:preserve-3d; transition:transform .25s var(--ease);
   }
   .hero-photo img{width:100%;height:100%;object-fit:cover;}
-  .accent-ring{
-    position:absolute; z-index:2; width:72px;height:72px; border-radius:50%;
-    border:1.5px solid #111111; top:6%; right:6%;
-    animation:ringSpin 18s linear infinite;
-  }
-  .accent-ring::after{
-    content:''; position:absolute; width:8px;height:8px;border-radius:50%;
-    background:#111111; top:-4px; left:50%; margin-left:-4px;
-  }
   @keyframes ringSpin{to{transform:rotate(360deg);}}
 
   /* ---------- SECTION DIVIDER ---------- */
@@ -535,8 +516,6 @@
      sono la causa principale della sensazione che la pagina "balli". Restano solo
      le animazioni di ingresso (una tantum), non quelle continue. */
   @media (max-width:760px){
-    .blob{animation:none;}
-    .accent-ring{animation:none;}
     .home-btn .home-circle{animation:none;}
     .home-btn .home-ring{animation:none; display:none;}
     .social-orbit .ring{animation:none;}
@@ -598,11 +577,9 @@
 </div>
         </div>
         <div class="hero-photo-wrap">
-          <div class="blob"></div>
           <div class="hero-photo" id="tiltPhoto">
             <img src="claudio.png" alt="">
           </div>
-          <div class="accent-ring"></div>
         </div>
       </div>
     </div>
